@@ -27,21 +27,7 @@ const translations = {
     minutes: 'دقيقة',
     add: 'إضافة',
     added: 'تمت الإضافة',
-    groups: {
-      'A': 'المجموعة أ',
-      'B': 'المجموعة ب',
-      'C': 'المجموعة ج',
-      'D': 'المجموعة د',
-      'E': 'المجموعة ه',
-      'F': 'المجموعة و',
-      'G': 'المجموعة ز',
-      'H': 'المجموعة ح',
-      'I': 'المجموعة ي',
-      'J': 'المجموعة ك',
-      'K': 'المجموعة ل',
-      'L': 'المجموعة م'
-    }
-  },
+    groups: 'المجموعات',
   en: {
     welcome_title: 'Yasser Ashraf FIFA WORLD CUP 2026',
     welcome_subtitle: 'Choose the teams you want to track',
@@ -70,20 +56,7 @@ const translations = {
     minutes: 'min',
     add: 'Add',
     added: 'Added',
-    groups: {
-      'A': 'Group A',
-      'B': 'Group B',
-      'C': 'Group C',
-      'D': 'Group D',
-      'E': 'Group E',
-      'F': 'Group F',
-      'G': 'Group G',
-      'H': 'Group H',
-      'I': 'Group I',
-      'J': 'Group J',
-      'K': 'Group K',
-      'L': 'Group L'
-    }
+    groups: 'Groups',
   }
 };
 

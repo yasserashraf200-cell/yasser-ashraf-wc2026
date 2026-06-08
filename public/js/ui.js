@@ -7,76 +7,76 @@ let selectedTeams = JSON.parse(localStorage.getItem('selectedTeams')) || [];
 
 const groupsData = {
   'A': [
-    { id: 769, emoji: '🇲🇽', ar: 'المكسيك', en: 'Mexico' },
-    { id: 772, emoji: '🇰🇷', ar: 'كوريا الجنوبية', en: 'South Korea' },
-    { id: 774, emoji: '🇿🇦', ar: 'جنوب أفريقيا', en: 'South Africa' },
-    { id: 798, emoji: '🇨🇿', ar: 'التشيك', en: 'Czechia' }
+    { id: 769, flag: 'mx', ar: 'المكسيك', en: 'Mexico' },
+    { id: 772, flag: 'kr', ar: 'كوريا الجنوبية', en: 'South Korea' },
+    { id: 774, flag: 'za', ar: 'جنوب أفريقيا', en: 'South Africa' },
+    { id: 798, flag: 'cz', ar: 'التشيك', en: 'Czechia' }
   ],
   'B': [
-    { id: 828, emoji: '🇨🇦', ar: 'كندا', en: 'Canada' },
-    { id: 788, emoji: '🇨🇭', ar: 'سويسرا', en: 'Switzerland' },
-    { id: 8030, emoji: '🇶🇦', ar: 'قطر', en: 'Qatar' },
-    { id: 1060, emoji: '🇧🇦', ar: 'البوسنة والهرسك', en: 'Bosnia-Herzegovina' }
+    { id: 828, flag: 'ca', ar: 'كندا', en: 'Canada' },
+    { id: 788, flag: 'ch', ar: 'سويسرا', en: 'Switzerland' },
+    { id: 8030, flag: 'qa', ar: 'قطر', en: 'Qatar' },
+    { id: 1060, flag: 'ba', ar: 'البوسنة والهرسك', en: 'Bosnia-Herzegovina' }
   ],
   'C': [
-    { id: 764, emoji: '🇧🇷', ar: 'البرازيل', en: 'Brazil' },
-    { id: 815, emoji: '🇲🇦', ar: 'المغرب', en: 'Morocco' },
-    { id: 8873, emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', ar: 'اسكتلندا', en: 'Scotland' },
-    { id: 836, emoji: '🇭🇹', ar: 'هايتي', en: 'Haiti' }
+    { id: 764, flag: 'br', ar: 'البرازيل', en: 'Brazil' },
+    { id: 815, flag: 'ma', ar: 'المغرب', en: 'Morocco' },
+    { id: 8873, flag: 'gb', ar: 'اسكتلندا', en: 'Scotland' },
+    { id: 836, flag: 'ht', ar: 'هايتي', en: 'Haiti' }
   ],
   'D': [
-    { id: 771, emoji: '🇺🇸', ar: 'أمريكا', en: 'United States' },
-    { id: 761, emoji: '🇵🇾', ar: 'باراغواي', en: 'Paraguay' },
-    { id: 779, emoji: '🇦🇺', ar: 'أستراليا', en: 'Australia' },
-    { id: 803, emoji: '🇹🇷', ar: 'تركيا', en: 'Turkey' }
+    { id: 771, flag: 'us', ar: 'أمريكا', en: 'United States' },
+    { id: 761, flag: 'py', ar: 'باراغواي', en: 'Paraguay' },
+    { id: 779, flag: 'au', ar: 'أستراليا', en: 'Australia' },
+    { id: 803, flag: 'tr', ar: 'تركيا', en: 'Turkey' }
   ],
   'E': [
-    { id: 759, emoji: '🇩🇪', ar: 'ألمانيا', en: 'Germany' },
-    { id: 791, emoji: '🇪🇨', ar: 'إكوادور', en: 'Ecuador' },
-    { id: 1935, emoji: '🇨🇮', ar: 'ساحل العاج', en: 'Ivory Coast' },
-    { id: 9460, emoji: '🇨🇼', ar: 'كوراساو', en: 'Curaçao' }
+    { id: 759, flag: 'de', ar: 'ألمانيا', en: 'Germany' },
+    { id: 791, flag: 'ec', ar: 'إكوادور', en: 'Ecuador' },
+    { id: 1935, flag: 'ci', ar: 'ساحل العاج', en: 'Ivory Coast' },
+    { id: 9460, flag: 'cw', ar: 'كوراساو', en: 'Curaçao' }
   ],
   'F': [
-    { id: 8601, emoji: '🇳🇱', ar: 'هولندا', en: 'Netherlands' },
-    { id: 766, emoji: '🇯🇵', ar: 'اليابان', en: 'Japan' },
-    { id: 792, emoji: '🇸🇪', ar: 'السويد', en: 'Sweden' },
-    { id: 802, emoji: '🇹🇳', ar: 'تونس', en: 'Tunisia' }
+    { id: 8601, flag: 'nl', ar: 'هولندا', en: 'Netherlands' },
+    { id: 766, flag: 'jp', ar: 'اليابان', en: 'Japan' },
+    { id: 792, flag: 'se', ar: 'السويد', en: 'Sweden' },
+    { id: 802, flag: 'tn', ar: 'تونس', en: 'Tunisia' }
   ],
   'G': [
-    { id: 805, emoji: '🇧🇪', ar: 'بلجيكا', en: 'Belgium' },
-    { id: 825, emoji: '🇪🇬', ar: 'مصر', en: 'Egypt' },
-    { id: 840, emoji: '🇮🇷', ar: 'إيران', en: 'IR Iran' },
-    { id: 783, emoji: '🇳🇿', ar: 'نيوزيلندا', en: 'New Zealand' }
+    { id: 805, flag: 'be', ar: 'بلجيكا', en: 'Belgium' },
+    { id: 825, flag: 'eg', ar: 'مصر', en: 'Egypt' },
+    { id: 840, flag: 'ir', ar: 'إيران', en: 'IR Iran' },
+    { id: 783, flag: 'nz', ar: 'نيوزيلندا', en: 'New Zealand' }
   ],
   'H': [
-    { id: 760, emoji: '🇪🇸', ar: 'إسبانيا', en: 'Spain' },
-    { id: 1930, emoji: '🇨🇻', ar: 'الرأس الأخضر', en: 'Cape Verde' },
-    { id: 801, emoji: '🇸🇦', ar: 'السعودية', en: 'Saudi Arabia' },
-    { id: 758, emoji: '🇺🇾', ar: 'أوروغواي', en: 'Uruguay' }
+    { id: 760, flag: 'es', ar: 'إسبانيا', en: 'Spain' },
+    { id: 1930, flag: 'cv', ar: 'الرأس الأخضر', en: 'Cape Verde' },
+    { id: 801, flag: 'sa', ar: 'السعودية', en: 'Saudi Arabia' },
+    { id: 758, flag: 'uy', ar: 'أوروغواي', en: 'Uruguay' }
   ],
   'I': [
-    { id: 773, emoji: '🇫🇷', ar: 'فرنسا', en: 'France' },
-    { id: 804, emoji: '🇸🇳', ar: 'السنغال', en: 'Senegal' },
-    { id: 8062, emoji: '🇮🇶', ar: 'العراق', en: 'Iraq' },
-    { id: 8872, emoji: '🇳🇴', ar: 'النرويج', en: 'Norway' }
+    { id: 773, flag: 'fr', ar: 'فرنسا', en: 'France' },
+    { id: 804, flag: 'sn', ar: 'السنغال', en: 'Senegal' },
+    { id: 8062, flag: 'iq', ar: 'العراق', en: 'Iraq' },
+    { id: 8872, flag: 'no', ar: 'النرويج', en: 'Norway' }
   ],
   'J': [
-    { id: 762, emoji: '🇦🇷', ar: 'الأرجنتين', en: 'Argentina' },
-    { id: 816, emoji: '🇦🇹', ar: 'النمسا', en: 'Austria' },
-    { id: 778, emoji: '🇩🇿', ar: 'الجزائر', en: 'Algeria' },
-    { id: 8049, emoji: '🇯🇴', ar: 'الأردن', en: 'Jordan' }
+    { id: 762, flag: 'ar', ar: 'الأرجنتين', en: 'Argentina' },
+    { id: 816, flag: 'at', ar: 'النمسا', en: 'Austria' },
+    { id: 778, flag: 'dz', ar: 'الجزائر', en: 'Algeria' },
+    { id: 8049, flag: 'jo', ar: 'الأردن', en: 'Jordan' }
   ],
   'K': [
-    { id: 765, emoji: '🇵🇹', ar: 'البرتغال', en: 'Portugal' },
-    { id: 818, emoji: '🇨🇴', ar: 'كولومبيا', en: 'Colombia' },
-    { id: 8070, emoji: '🇺🇿', ar: 'أوزبكستان', en: 'Uzbekistan' },
-    { id: 1934, emoji: '🇨🇩', ar: 'الكونغو الديمقراطية', en: 'Congo DR' }
+    { id: 765, flag: 'pt', ar: 'البرتغال', en: 'Portugal' },
+    { id: 818, flag: 'co', ar: 'كولومبيا', en: 'Colombia' },
+    { id: 8070, flag: 'uz', ar: 'أوزبكستان', en: 'Uzbekistan' },
+    { id: 1934, flag: 'cd', ar: 'الكونغو الديمقراطية', en: 'Congo DR' }
   ],
   'L': [
-    { id: 770, emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', ar: 'إنجلترا', en: 'England' },
-    { id: 799, emoji: '🇭🇷', ar: 'كرواتيا', en: 'Croatia' },
-    { id: 763, emoji: '🇬🇭', ar: 'غانا', en: 'Ghana' },
-    { id: 1836, emoji: '🇵🇦', ar: 'بنما', en: 'Panama' }
+    { id: 770, flag: 'gb', ar: 'إنجلترا', en: 'England' },
+    { id: 799, flag: 'hr', ar: 'كرواتيا', en: 'Croatia' },
+    { id: 763, flag: 'gh', ar: 'غانا', en: 'Ghana' },
+    { id: 1836, flag: 'pa', ar: 'بنما', en: 'Panama' }
   ]
 };
 
@@ -121,7 +121,7 @@ function renderGroups() {
         <div class="group-teams">
           ${teams.map(team => `
             <div class="group-team-row">
-              <span class="group-team-emoji">${team.emoji}</span>
+              <img src="https://flagcdn.com/40x30/${team.flag}.png" alt="" class="flag-img">
               <span class="group-team-name">${lang === 'ar' ? team.ar : team.en}</span>
             </div>
           `).join('')}
@@ -142,7 +142,7 @@ function renderTeamsSelection() {
     html += `<div class="selection-group"><div class="selection-group-title">${lang === 'ar' ? 'المجموعة' : 'Group'} ${group}</div>`;
     html += teams.map(team => `
       <div class="team-card ${selectedTeams.includes(team.id) ? 'selected' : ''}" onclick="toggleTeam(${team.id})">
-        <div class="team-emoji">${team.emoji}</div>
+        <img src="https://flagcdn.com/80x60/${team.flag}.png" alt="" class="team-flag-img">
         <div class="team-name-ar">${team.ar}</div>
         <div class="team-name-en">${team.en}</div>
         <div class="team-check">${selectedTeams.includes(team.id) ? '✓' : ''}</div>
@@ -209,8 +209,8 @@ function renderMatchCard(match) {
       <span>${e.minute}' ${e.player}</span>
     </div>
   `).join('');
-  const homeEmoji = getTeamFlag(match.homeTeamId);
-  const awayEmoji = getTeamFlag(match.awayTeamId);
+  const homeFlag = getTeamFlagImg(match.homeTeamId);
+  const awayFlag = getTeamFlagImg(match.awayTeamId);
   const homeNameAr = getTeamNameAr(match.homeTeamId);
   const homeNameEn = getTeamNameEn(match.homeTeamId);
   const awayNameAr = getTeamNameAr(match.awayTeamId);
@@ -223,7 +223,7 @@ function renderMatchCard(match) {
       </div>
       <div class="match-teams">
         <div class="team-info home">
-          <span class="team-emoji-lg">${homeEmoji}</span>
+          <span class="team-emoji-lg">${homeFlag}</span>
           <div class="team-names">
             <span class="name-ar">${homeNameAr}</span>
             <span class="name-en">${homeNameEn}</span>
@@ -237,7 +237,7 @@ function renderMatchCard(match) {
             <span class="name-ar">${awayNameAr}</span>
             <span class="name-en">${awayNameEn}</span>
           </div>
-          <span class="team-emoji-lg">${awayEmoji}</span>
+          <span class="team-emoji-lg">${awayFlag}</span>
         </div>
       </div>
       ${events ? `<div class="match-events">${events}</div>` : ''}
