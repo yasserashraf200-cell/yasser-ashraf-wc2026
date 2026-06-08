@@ -8,6 +8,7 @@ const compression = require('compression');
 const path = require('path');
 const cron = require('node-cron');
 
+const Match = require('./models/Match');
 const matchesRouter = require('./routes/matches');
 const teamsRouter = require('./routes/teams');
 const usersRouter = require('./routes/users');
@@ -26,7 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 mongoose.connect(process.env.MONGODB_URI)
   .then(async () => {
     console.log('Connected to MongoDB');
+    await Match.deleteMany({});
+    console.log('Cleared old matches');
     await seedTeams();
+    await trackMatches();
   })
   .catch(err => console.error('MongoDB connection error:', err));
 
