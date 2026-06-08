@@ -1,60 +1,60 @@
 const API_BASE = '/api';
 
-const teamFlags = {
-  825: { flag: 'eg', name: 'Egypt', nameAr: 'مصر' },
-  801: { flag: 'sa', name: 'Saudi Arabia', nameAr: 'السعودية' },
-  815: { flag: 'ma', name: 'Morocco', nameAr: 'المغرب' },
-  802: { flag: 'tn', name: 'Tunisia', nameAr: 'تونس' },
-  778: { flag: 'dz', name: 'Algeria', nameAr: 'الجزائر' },
-  762: { flag: 'ar', name: 'Argentina', nameAr: 'الأرجنتين' },
-  764: { flag: 'br', name: 'Brazil', nameAr: 'البرازيل' },
-  759: { flag: 'de', name: 'Germany', nameAr: 'ألمانيا' },
-  773: { flag: 'fr', name: 'France', nameAr: 'فرنسا' },
-  770: { flag: 'gb-eng', name: 'England', nameAr: 'إنجلترا' },
-  760: { flag: 'es', name: 'Spain', nameAr: 'إسبانيا' },
-  786: { flag: 'it', name: 'Italy', nameAr: 'إيطاليا' },
-  8601: { flag: 'nl', name: 'Netherlands', nameAr: 'هولندا' },
-  765: { flag: 'pt', name: 'Portugal', nameAr: 'البرتغال' },
-  766: { flag: 'jp', name: 'Japan', nameAr: 'اليابان' },
-  772: { flag: 'kr', name: 'South Korea', nameAr: 'كوريا' },
-  769: { flag: 'mx', name: 'Mexico', nameAr: 'المكسيك' },
-  771: { flag: 'us', name: 'USA', nameAr: 'أمريكا' },
-  8030: { flag: 'qa', name: 'Qatar', nameAr: 'قطر' },
-  779: { flag: 'au', name: 'Australia', nameAr: 'أستراليا' },
-  8062: { flag: 'iq', name: 'Iraq', nameAr: 'العراق' },
-  840: { flag: 'ir', name: 'Iran', nameAr: 'إيران' },
-  805: { flag: 'be', name: 'Belgium', nameAr: 'بلجيكا' },
-  788: { flag: 'ch', name: 'Switzerland', nameAr: 'سويسرا' },
-  799: { flag: 'hr', name: 'Croatia', nameAr: 'كرواتيا' },
-  792: { flag: 'se', name: 'Sweden', nameAr: 'السويد' },
-  804: { flag: 'sn', name: 'Senegal', nameAr: 'السنغال' },
-  763: { flag: 'gh', name: 'Ghana', nameAr: 'غانا' },
-  812: { flag: 'cm', name: 'Cameroon', nameAr: 'الكاميرون' },
-  813: { flag: 'ng', name: 'Nigeria', nameAr: 'نيجيريا' },
-  1935: { flag: 'ci', name: 'Ivory Coast', nameAr: 'ساحل العاج' },
-  774: { flag: 'za', name: 'South Africa', nameAr: 'جنوب أفريقيا' },
-  783: { flag: 'nz', name: 'New Zealand', nameAr: 'نيوزيلندا' },
-  827: { flag: 'pl', name: 'Poland', nameAr: 'بولندا' },
-  816: { flag: 'at', name: 'Austria', nameAr: 'النمسا' },
-  798: { flag: 'cz', name: 'Czechia', nameAr: 'التشيك' },
-  866: { flag: 'rs', name: 'Serbia', nameAr: 'صربيا' },
-  8872: { flag: 'no', name: 'Norway', nameAr: 'النرويج' },
-  820: { flag: 'dk', name: 'Denmark', nameAr: 'الدنمارك' },
-  803: { flag: 'tr', name: 'Turkey', nameAr: 'تركيا' },
-  758: { flag: 'uy', name: 'Uruguay', nameAr: 'أوروغواي' },
-  818: { flag: 'co', name: 'Colombia', nameAr: 'كولومبيا' },
-  791: { flag: 'ec', name: 'Ecuador', nameAr: 'إكوادور' },
-  761: { flag: 'py', name: 'Paraguay', nameAr: 'باراغواي' },
-  828: { flag: 'ca', name: 'Canada', nameAr: 'كندا' },
-  1836: { flag: 'pa', name: 'Panama', nameAr: 'بنما' },
-  836: { flag: 'ht', name: 'Haiti', nameAr: 'هايتي' },
-  8049: { flag: 'jo', name: 'Jordan', nameAr: 'الأردن' },
-  8070: { flag: 'uz', name: 'Uzbekistan', nameAr: 'أوزبكستان' },
-  1060: { flag: 'ba', name: 'Bosnia', nameAr: 'البوسنة' },
-  1930: { flag: 'cv', name: 'Cape Verde', nameAr: 'الرأس الأخضر' },
-  1934: { flag: 'cd', name: 'Congo DR', nameAr: 'الكونغو' },
-  9460: { flag: 'cw', name: 'Curaçao', nameAr: 'كوراساو' },
-  8873: { flag: 'gb-sct', name: 'Scotland', nameAr: 'اسكتلندا' }
+const teamsData = {
+  825: { en: 'Egypt', ar: 'مصر', emoji: '🇪🇬' },
+  801: { en: 'Saudi Arabia', ar: 'السعودية', emoji: '🇸🇦' },
+  815: { en: 'Morocco', ar: 'المغرب', emoji: '🇲🇦' },
+  802: { en: 'Tunisia', ar: 'تونس', emoji: '🇹🇳' },
+  778: { en: 'Algeria', ar: 'الجزائر', emoji: '🇩🇿' },
+  762: { en: 'Argentina', ar: 'الأرجنتين', emoji: '🇦🇷' },
+  764: { en: 'Brazil', ar: 'البرازيل', emoji: '🇧🇷' },
+  759: { en: 'Germany', ar: 'ألمانيا', emoji: '🇩🇪' },
+  773: { en: 'France', ar: 'فرنسا', emoji: '🇫🇷' },
+  770: { en: 'England', ar: 'إنجلترا', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+  760: { en: 'Spain', ar: 'إسبانيا', emoji: '🇪🇸' },
+  786: { en: 'Italy', ar: 'إيطاليا', emoji: '🇮🇹' },
+  8601: { en: 'Netherlands', ar: 'هولندا', emoji: '🇳🇱' },
+  765: { en: 'Portugal', ar: 'البرتغال', emoji: '🇵🇹' },
+  766: { en: 'Japan', ar: 'اليابان', emoji: '🇯🇵' },
+  772: { en: 'South Korea', ar: 'كوريا الجنوبية', emoji: '🇰🇷' },
+  769: { en: 'Mexico', ar: 'المكسيك', emoji: '🇲🇽' },
+  771: { en: 'USA', ar: 'أمريكا', emoji: '🇺🇸' },
+  8030: { en: 'Qatar', ar: 'قطر', emoji: '🇶🇦' },
+  779: { en: 'Australia', ar: 'أستراليا', emoji: '🇦🇺' },
+  8062: { en: 'Iraq', ar: 'العراق', emoji: '🇮🇶' },
+  840: { en: 'Iran', ar: 'إيران', emoji: '🇮🇷' },
+  805: { en: 'Belgium', ar: 'بلجيكا', emoji: '🇧🇪' },
+  788: { en: 'Switzerland', ar: 'سويسرا', emoji: '🇨🇭' },
+  799: { en: 'Croatia', ar: 'كرواتيا', emoji: '🇭🇷' },
+  792: { en: 'Sweden', ar: 'السويد', emoji: '🇸🇪' },
+  804: { en: 'Senegal', ar: 'السنغال', emoji: '🇸🇳' },
+  763: { en: 'Ghana', ar: 'غانا', emoji: '🇬🇭' },
+  812: { en: 'Cameroon', ar: 'الكاميرون', emoji: '🇨🇲' },
+  813: { en: 'Nigeria', ar: 'نيجيريا', emoji: '🇳🇬' },
+  1935: { en: 'Ivory Coast', ar: 'ساحل العاج', emoji: '🇨🇮' },
+  774: { en: 'South Africa', ar: 'جنوب أفريقيا', emoji: '🇿🇦' },
+  783: { en: 'New Zealand', ar: 'نيوزيلندا', emoji: '🇳🇿' },
+  827: { en: 'Poland', ar: 'بولندا', emoji: '🇵🇱' },
+  816: { en: 'Austria', ar: 'النمسا', emoji: '🇦🇹' },
+  798: { en: 'Czechia', ar: 'التشيك', emoji: '🇨🇿' },
+  866: { en: 'Serbia', ar: 'صربيا', emoji: '🇷🇸' },
+  8872: { en: 'Norway', ar: 'النرويج', emoji: '🇳🇴' },
+  820: { en: 'Denmark', ar: 'الدنمارك', emoji: '🇩🇰' },
+  803: { en: 'Turkey', ar: 'تركيا', emoji: '🇹🇷' },
+  758: { en: 'Uruguay', ar: 'أوروغواي', emoji: '🇺🇾' },
+  818: { en: 'Colombia', ar: 'كولومبيا', emoji: '🇨🇴' },
+  791: { en: 'Ecuador', ar: 'إكوادور', emoji: '🇪🇨' },
+  761: { en: 'Paraguay', ar: 'باراغواي', emoji: '🇵🇾' },
+  828: { en: 'Canada', ar: 'كندا', emoji: '🇨🇦' },
+  1836: { en: 'Panama', ar: 'بنما', emoji: '🇵🇦' },
+  836: { en: 'Haiti', ar: 'هايتي', emoji: '🇭🇹' },
+  8049: { en: 'Jordan', ar: 'الأردن', emoji: '🇯🇴' },
+  8070: { en: 'Uzbekistan', ar: 'أوزبكستان', emoji: '🇺🇿' },
+  1060: { en: 'Bosnia', ar: 'البوسنة', emoji: '🇧🇦' },
+  1930: { en: 'Cape Verde', ar: 'الرأس الأخضر', emoji: '🇨🇻' },
+  1934: { en: 'Congo DR', ar: 'الكونغو الديمقراطية', emoji: '🇨🇩' },
+  9460: { en: 'Curaçao', ar: 'كوراساو', emoji: '🇨🇼' },
+  8873: { en: 'Scotland', ar: 'اسكتلندا', emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' }
 };
 
 function getDeviceId() {
@@ -154,32 +154,23 @@ async function markAllNotificationsRead() {
 }
 
 function getTeamFlag(teamId) {
-  const team = teamFlags[teamId];
-  if (team && team.flag) {
-    return `https://flagcdn.com/w80/${team.flag}.png`;
-  }
-  return null;
-}
-
-function getTeamFlagEmoji(teamId) {
-  const emojis = {
-    825: '🇪🇬', 801: '🇸🇦', 815: '🇲🇦', 802: '🇹🇳', 778: '🇩🇿',
-    762: '🇦🇷', 764: '🇧🇷', 759: '🇩🇪', 773: '🇫🇷', 770: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-    760: '🇪🇸', 786: '🇮🇹', 8601: '🇳🇱', 765: '🇵🇹', 766: '🇯🇵',
-    772: '🇰🇷', 769: '🇲🇽', 771: '🇺🇸', 8030: '🇶🇦', 779: '🇦🇺',
-    8062: '🇮🇶', 840: '🇮🇷', 805: '🇧🇪', 788: '🇨🇭', 799: '🇭🇷',
-    792: '🇸🇪', 804: '🇸🇳', 763: '🇬🇭', 812: '🇨🇲', 813: '🇳🇬',
-    1935: '🇨🇮', 774: '🇿🇦', 783: '🇳🇿', 827: '🇵🇱', 816: '🇦🇹',
-    798: '🇨🇿', 866: '🇷🇸', 8872: '🇳🇴', 820: '🇩🇰', 803: '🇹🇷',
-    758: '🇺🇾', 818: '🇨🇴', 791: '🇪🇨', 761: '🇵🇾', 828: '🇨🇦',
-    1836: '🇵🇦', 836: '🇭🇹', 8049: '🇯🇴', 8070: '🇺🇿', 1060: '🇧🇦',
-    1930: '🇨🇻', 1934: '🇨🇩', 9460: '🇨🇼', 8873: '🏴󠁧󠁢󠁳󠁣󠁴󠁿'
-  };
-  return emojis[teamId] || '⚽';
+  const team = teamsData[teamId];
+  if (team) return team.emoji;
+  return '⚽';
 }
 
 function getTeamName(teamId, lang) {
-  const team = teamFlags[teamId];
+  const team = teamsData[teamId];
   if (!team) return 'Unknown';
-  return lang === 'ar' ? team.nameAr : team.name;
+  return lang === 'ar' ? team.ar : team.en;
+}
+
+function getTeamNameAr(teamId) {
+  const team = teamsData[teamId];
+  return team ? team.ar : '';
+}
+
+function getTeamNameEn(teamId) {
+  const team = teamsData[teamId];
+  return team ? team.en : '';
 }

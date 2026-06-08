@@ -34,13 +34,14 @@ function renderTeamsSelection() {
   const container = document.getElementById('teamsSelection');
   if (!container) return;
   container.innerHTML = allTeams.map(team => {
-    const flagUrl = getTeamFlag(team.id);
+    const emoji = getTeamFlag(team.id);
+    const nameAr = getTeamNameAr(team.id);
+    const nameEn = getTeamNameEn(team.id);
     return `
     <div class="team-card ${selectedTeams.includes(team.id) ? 'selected' : ''}" onclick="toggleTeam(${team.id})">
-      <div class="team-crest-container">
-        ${flagUrl ? `<img src="${flagUrl}" class="team-flag-card" alt="${team.name}">` : `<span class="team-flag-emoji">${getTeamFlagEmoji(team.id)}</span>`}
-      </div>
-      <div class="team-name">${currentLang === 'ar' ? team.nameAr : team.name}</div>
+      <div class="team-emoji">${emoji}</div>
+      <div class="team-name-ar">${nameAr}</div>
+      <div class="team-name-en">${nameEn}</div>
       <div class="team-check">${selectedTeams.includes(team.id) ? '✓' : ''}</div>
     </div>
   `}).join('');
@@ -117,8 +118,12 @@ function renderMatchCard(match) {
       <span>${e.minute}' ${e.player}</span>
     </div>
   `).join('');
-  const homeFlag = getTeamFlag(match.homeTeamId);
-  const awayFlag = getTeamFlag(match.awayTeamId);
+  const homeEmoji = getTeamFlag(match.homeTeamId);
+  const awayEmoji = getTeamFlag(match.awayTeamId);
+  const homeNameAr = getTeamNameAr(match.homeTeamId);
+  const homeNameEn = getTeamNameEn(match.homeTeamId);
+  const awayNameAr = getTeamNameAr(match.awayTeamId);
+  const awayNameEn = getTeamNameEn(match.awayTeamId);
   return `
     <div class="match-card ${isLive ? 'live' : ''}">
       <div class="match-header">
@@ -127,15 +132,21 @@ function renderMatchCard(match) {
       </div>
       <div class="match-teams">
         <div class="team-info home">
-          ${homeFlag ? `<img class="team-flag-img" src="${homeFlag}" alt="">` : `<span class="flag-emoji">${getTeamFlagEmoji(match.homeTeamId)}</span>`}
-          <span class="name">${currentLang === 'ar' ? match.homeTeamNameAr : match.homeTeamName}</span>
+          <span class="team-emoji-lg">${homeEmoji}</span>
+          <div class="team-names">
+            <span class="name-ar">${homeNameAr}</span>
+            <span class="name-en">${homeNameEn}</span>
+          </div>
         </div>
         <div class="score">
           ${isUpcoming ? 'VS' : `${match.homeScore} - ${match.awayScore}`}
         </div>
         <div class="team-info away">
-          <span class="name">${currentLang === 'ar' ? match.awayTeamNameAr : match.awayTeamName}</span>
-          ${awayFlag ? `<img class="team-flag-img" src="${awayFlag}" alt="">` : `<span class="flag-emoji">${getTeamFlagEmoji(match.awayTeamId)}</span>`}
+          <div class="team-names">
+            <span class="name-ar">${awayNameAr}</span>
+            <span class="name-en">${awayNameEn}</span>
+          </div>
+          <span class="team-emoji-lg">${awayEmoji}</span>
         </div>
       </div>
       ${events ? `<div class="match-events">${events}</div>` : ''}
@@ -154,11 +165,13 @@ function renderYourTeams() {
     return;
   }
   container.innerHTML = selectedTeams.map(teamId => {
-    const flagUrl = getTeamFlag(teamId);
+    const emoji = getTeamFlag(teamId);
+    const nameAr = getTeamNameAr(teamId);
+    const nameEn = getTeamNameEn(teamId);
     return `
     <div class="your-team-tag">
-      ${flagUrl ? `<img src="${flagUrl}" class="team-flag-tag" alt="">` : `<span>${getTeamFlagEmoji(teamId)}</span>`}
-      <span>${getTeamName(teamId, currentLang)}</span>
+      <span>${emoji}</span>
+      <span>${nameAr} | ${nameEn}</span>
     </div>
   `}).join('');
 }
@@ -167,12 +180,17 @@ function renderAllTeams() {
   const container = document.getElementById('allTeams');
   if (!container) return;
   container.innerHTML = allTeams.map(team => {
-    const flagUrl = getTeamFlag(team.id);
+    const emoji = getTeamFlag(team.id);
+    const nameAr = getTeamNameAr(team.id);
+    const nameEn = getTeamNameEn(team.id);
     return `
     <div class="all-team-card" data-team-id="${team.id}">
       <div class="team-left">
-        ${flagUrl ? `<img src="${flagUrl}" class="team-flag-img" alt="">` : `<span class="flag-emoji">${getTeamFlagEmoji(team.id)}</span>`}
-        <span class="name">${currentLang === 'ar' ? team.nameAr : team.name}</span>
+        <span class="flag-emoji">${emoji}</span>
+        <div class="team-names-card">
+          <span class="name-ar">${nameAr}</span>
+          <span class="name-en">${nameEn}</span>
+        </div>
       </div>
       <button class="action-btn ${selectedTeams.includes(team.id) ? 'added' : ''}" onclick="toggleTeam(${team.id})">
         ${selectedTeams.includes(team.id) ? t('added') : t('add')}

@@ -785,45 +785,64 @@ html[dir="ltr"] body {
   }
 }
 
-.team-flag-card {
-  width: 50px;
-  height: 35px;
-  object-fit: cover;
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
+.team-emoji {
+  font-size: 3rem;
+  line-height: 1;
 }
 
-.team-crest-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.team-flag-img {
-  width: 40px;
-  height: 28px;
-  object-fit: cover;
-  border-radius: 3px;
-  border: 1px solid var(--border-color);
-}
-
-.team-flag-tag {
-  width: 28px;
-  height: 20px;
-  object-fit: cover;
-  border-radius: 2px;
-  border: 1px solid var(--border-color);
-}
-
-.team-flag-emoji {
+.team-emoji-lg {
   font-size: 2.5rem;
+  line-height: 1;
+}
+
+.team-name-ar {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.team-name-en {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.team-names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.team-names .name-ar {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.team-names .name-en {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.team-names-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.team-names-card .name-ar {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.team-names-card .name-en {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
 }
 
 .flag-emoji {
-  font-size: 2rem;
-}
-
-.team-info .team-flag-img {
-  width: 45px;
-  height: 30px;
+  font-size: 1.8rem;
 }
