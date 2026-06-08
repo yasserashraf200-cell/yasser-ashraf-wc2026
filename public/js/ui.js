@@ -25,13 +25,16 @@ function filterMatches(filter) {
 function renderTeamsSelection() {
   const container = document.getElementById('teamsSelection');
   if (!container) return;
-  container.innerHTML = allTeams.map(team => `
+  container.innerHTML = allTeams.map(team => {
+    const crest = getTeamCrest(team.id);
+    const flagHtml = crest ? `<img src="${crest}" class="team-crest" alt="${team.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="team-flag" style="display:none">${getTeamFlag(team.id)}</span>` : `<span class="team-flag">${getTeamFlag(team.id)}</span>`;
+    return `
     <div class="team-card ${selectedTeams.includes(team.id) ? 'selected' : ''}" onclick="toggleTeam(${team.id})">
-      <div class="team-flag">${getTeamFlag(team.id)}</div>
+      <div class="team-crest-container">${flagHtml}</div>
       <div class="team-name">${currentLang === 'ar' ? team.nameAr : team.name}</div>
       <div class="team-check">${selectedTeams.includes(team.id) ? '✓' : ''}</div>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 function toggleTeam(teamId) {
@@ -108,12 +111,14 @@ function renderMatchCard(match) {
       <div class="match-teams">
         <div class="team-info home">
           <span class="name">${currentLang === 'ar' ? match.homeTeamNameAr : match.homeTeamName}</span>
+          <img class="team-crest-sm" src="${getTeamCrest(match.homeTeamId) || ''}" onerror="this.style.display='none'" alt="">
           <span class="flag">${getTeamFlag(match.homeTeamId)}</span>
         </div>
         <div class="score">
           ${isUpcoming ? 'VS' : `${match.homeScore} - ${match.awayScore}`}
         </div>
         <div class="team-info away">
+          <img class="team-crest-sm" src="${getTeamCrest(match.awayTeamId) || ''}" onerror="this.style.display='none'" alt="">
           <span class="flag">${getTeamFlag(match.awayTeamId)}</span>
           <span class="name">${currentLang === 'ar' ? match.awayTeamNameAr : match.awayTeamName}</span>
         </div>
@@ -133,20 +138,26 @@ function renderYourTeams() {
     container.innerHTML = `<p style="color: var(--text-secondary)">${t('select_teams_first')}</p>`;
     return;
   }
-  container.innerHTML = selectedTeams.map(teamId => `
+  container.innerHTML = selectedTeams.map(teamId => {
+    const crest = getTeamCrest(teamId);
+    return `
     <div class="your-team-tag">
+      ${crest ? `<img src="${crest}" class="team-crest-tag" onerror="this.style.display='none'" alt="">` : ''}
       <span>${getTeamFlag(teamId)}</span>
       <span>${getTeamName(teamId, currentLang)}</span>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 function renderAllTeams() {
   const container = document.getElementById('allTeams');
   if (!container) return;
-  container.innerHTML = allTeams.map(team => `
+  container.innerHTML = allTeams.map(team => {
+    const crest = getTeamCrest(team.id);
+    return `
     <div class="all-team-card" data-team-id="${team.id}">
       <div class="team-left">
+        ${crest ? `<img src="${crest}" class="team-crest-sm" onerror="this.style.display='none'" alt="">` : ''}
         <span class="flag">${getTeamFlag(team.id)}</span>
         <span class="name">${currentLang === 'ar' ? team.nameAr : team.name}</span>
       </div>
@@ -154,7 +165,7 @@ function renderAllTeams() {
         ${selectedTeams.includes(team.id) ? t('added') : t('add')}
       </button>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 async function loadMatches() {

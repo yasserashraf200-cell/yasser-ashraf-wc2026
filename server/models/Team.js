@@ -6,6 +6,7 @@ const teamSchema = new mongoose.Schema({
   nameAr: { type: String, required: true },
   code: { type: String, required: true },
   flag: { type: String },
+  crest: { type: String },
   group: { type: String },
   confederation: { type: String }
 });
