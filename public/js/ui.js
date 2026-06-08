@@ -26,11 +26,13 @@ function renderTeamsSelection() {
   const container = document.getElementById('teamsSelection');
   if (!container) return;
   container.innerHTML = allTeams.map(team => {
-    const crest = getTeamCrest(team.id);
-    const flagHtml = crest ? `<img src="${crest}" class="team-crest" alt="${team.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"><span class="team-flag" style="display:none">${getTeamFlag(team.id)}</span>` : `<span class="team-flag">${getTeamFlag(team.id)}</span>`;
+    const flagUrl = getTeamFlag(team.id);
     return `
     <div class="team-card ${selectedTeams.includes(team.id) ? 'selected' : ''}" onclick="toggleTeam(${team.id})">
-      <div class="team-crest-container">${flagHtml}</div>
+      <div class="team-crest-container">
+        ${flagUrl ? `<img src="${flagUrl}" class="team-crest" alt="${team.name}" onerror="this.style.display='none'">` : ''}
+        <span class="team-flag">${getTeamFlagEmoji(team.id)}</span>
+      </div>
       <div class="team-name">${currentLang === 'ar' ? team.nameAr : team.name}</div>
       <div class="team-check">${selectedTeams.includes(team.id) ? '✓' : ''}</div>
     </div>
@@ -102,6 +104,8 @@ function renderMatchCard(match) {
       <span>${e.minute}' ${e.player}</span>
     </div>
   `).join('');
+  const homeFlag = getTeamFlag(match.homeTeamId);
+  const awayFlag = getTeamFlag(match.awayTeamId);
   return `
     <div class="match-card ${isLive ? 'live' : ''}">
       <div class="match-header">
@@ -111,15 +115,15 @@ function renderMatchCard(match) {
       <div class="match-teams">
         <div class="team-info home">
           <span class="name">${currentLang === 'ar' ? match.homeTeamNameAr : match.homeTeamName}</span>
-          <img class="team-crest-sm" src="${getTeamCrest(match.homeTeamId) || ''}" onerror="this.style.display='none'" alt="">
-          <span class="flag">${getTeamFlag(match.homeTeamId)}</span>
+          ${homeFlag ? `<img class="team-flag-img" src="${homeFlag}" alt="" onerror="this.style.display='none'">` : ''}
+          <span class="flag">${getTeamFlagEmoji(match.homeTeamId)}</span>
         </div>
         <div class="score">
           ${isUpcoming ? 'VS' : `${match.homeScore} - ${match.awayScore}`}
         </div>
         <div class="team-info away">
-          <img class="team-crest-sm" src="${getTeamCrest(match.awayTeamId) || ''}" onerror="this.style.display='none'" alt="">
-          <span class="flag">${getTeamFlag(match.awayTeamId)}</span>
+          ${awayFlag ? `<img class="team-flag-img" src="${awayFlag}" alt="" onerror="this.style.display='none'">` : ''}
+          <span class="flag">${getTeamFlagEmoji(match.awayTeamId)}</span>
           <span class="name">${currentLang === 'ar' ? match.awayTeamNameAr : match.awayTeamName}</span>
         </div>
       </div>
@@ -139,11 +143,11 @@ function renderYourTeams() {
     return;
   }
   container.innerHTML = selectedTeams.map(teamId => {
-    const crest = getTeamCrest(teamId);
+    const flagUrl = getTeamFlag(teamId);
     return `
     <div class="your-team-tag">
-      ${crest ? `<img src="${crest}" class="team-crest-tag" onerror="this.style.display='none'" alt="">` : ''}
-      <span>${getTeamFlag(teamId)}</span>
+      ${flagUrl ? `<img src="${flagUrl}" class="team-flag-tag" alt="" onerror="this.style.display='none'">` : ''}
+      <span>${getTeamFlagEmoji(teamId)}</span>
       <span>${getTeamName(teamId, currentLang)}</span>
     </div>
   `}).join('');
@@ -153,12 +157,12 @@ function renderAllTeams() {
   const container = document.getElementById('allTeams');
   if (!container) return;
   container.innerHTML = allTeams.map(team => {
-    const crest = getTeamCrest(team.id);
+    const flagUrl = getTeamFlag(team.id);
     return `
     <div class="all-team-card" data-team-id="${team.id}">
       <div class="team-left">
-        ${crest ? `<img src="${crest}" class="team-crest-sm" onerror="this.style.display='none'" alt="">` : ''}
-        <span class="flag">${getTeamFlag(team.id)}</span>
+        ${flagUrl ? `<img src="${flagUrl}" class="team-flag-img" alt="" onerror="this.style.display='none'">` : ''}
+        <span class="flag">${getTeamFlagEmoji(team.id)}</span>
         <span class="name">${currentLang === 'ar' ? team.nameAr : team.name}</span>
       </div>
       <button class="action-btn ${selectedTeams.includes(team.id) ? 'added' : ''}" onclick="toggleTeam(${team.id})">
