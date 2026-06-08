@@ -846,3 +846,74 @@ html[dir="ltr"] body {
 .flag-emoji {
   font-size: 1.8rem;
 }
+
+.groups-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.group-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.group-header {
+  background: var(--gradient-gold);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.group-letter {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-dark);
+}
+
+.group-title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-dark);
+}
+
+.group-teams {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.group-team-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius-sm);
+}
+
+.group-team-emoji {
+  font-size: 1.8rem;
+}
+
+.group-team-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.selection-group {
+  margin-bottom: 15px;
+}
+
+.selection-group-title {
+  color: var(--text-gold);
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
