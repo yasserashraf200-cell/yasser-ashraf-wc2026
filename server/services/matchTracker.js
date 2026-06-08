@@ -24,6 +24,8 @@ async function trackMatches(fastOnly = false, slowOnly = false) {
   try {
     console.log('Tracking matches...');
     const apiMatches = await getMatches();
+    console.log(`API returned ${apiMatches.length} matches`);
+    let savedCount = 0;
     for (const apiMatch of apiMatches) {
       const isLive = apiMatch.status === 'IN_PLAY' || apiMatch.status === 'PAUSED';
       const isFinished = apiMatch.status === 'FINISHED';
@@ -87,9 +89,9 @@ async function trackMatches(fastOnly = false, slowOnly = false) {
         }
       }
     }
-    console.log('Match tracking completed');
+    console.log('Match tracking completed. Total:', apiMatches.length);
   } catch (error) {
-    console.error('Error tracking matches:', error);
+    console.error('Error tracking matches:', error.message);
   }
 }
 

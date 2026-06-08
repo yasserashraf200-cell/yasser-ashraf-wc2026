@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Match = require('../models/Match');
+const { trackMatches } = require('../services/matchTracker');
 
 router.get('/', async (req, res) => {
   try {
@@ -51,6 +52,16 @@ router.delete('/clear', async (req, res) => {
   try {
     await Match.deleteMany({});
     res.json({ message: 'All matches cleared' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post('/track', async (req, res) => {
+  try {
+    await trackMatches();
+    const count = await Match.countDocuments();
+    res.json({ message: `Tracking done. ${count} matches in DB` });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
