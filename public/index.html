@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0D1B2A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Yasser Ashraf FIFA WORLD CUP 2026 - Track matches and get notifications">
+  <title>Yasser Ashraf FIFA WORLD CUP 2026</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="trophy">🏆</span>
+          <div class="logo-text">
+            <span class="title">Yasser Ashraf</span>
+            <span class="subtitle">FIFA WORLD CUP 2026</span>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="langToggle" class="lang-btn" onclick="toggleLanguage()">
+            <span id="langText">EN</span>
+          </button>
+          <button id="notifBtn" class="notif-btn" onclick="showPage('notifications')">
+            <span class="bell">🔔</span>
+            <span id="notifCount" class="notif-badge" style="display:none">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div id="welcomePage" class="page active">
+        <div class="welcome-container">
+          <div class="welcome-logo">🏆</div>
+          <h1 data-i18n="welcome_title">Yasser Ashraf FIFA WORLD CUP 2026</h1>
+          <p data-i18n="welcome_subtitle">اختر المنتخبات اللي عايز تتبعها</p>
+          <div id="teamsSelection" class="teams-grid"></div>
+          <button class="btn-primary" onclick="saveSelectedTeams()" data-i18n="start_tracking">متابعة المباريات</button>
+        </div>
+      </div>
+
+      <div id="matchesPage" class="page">
+        <div class="tabs">
+          <button class="tab active" onclick="filterMatches('all')" data-i18n="all_matches">كل المباريات</button>
+          <button class="tab" onclick="filterMatches('live')" data-i18n="live">مباشر</button>
+          <button class="tab" onclick="filterMatches('upcoming')" data-i18n="upcoming">قادمة</button>
+          <button class="tab" onclick="filterMatches('finished')" data-i18n="finished">منتهية</button>
+        </div>
+        <div id="matchesList" class="matches-list"></div>
+      </div>
+
+      <div id="teamsPage" class="page">
+        <h2 data-i18n="your_teams">المنتخبات بتاعتك</h2>
+        <div id="yourTeams" class="your-teams"></div>
+        <h2 data-i18n="all_teams">كل المنتخبات</h2>
+        <div id="allTeams" class="all-teams"></div>
+      </div>
+
+      <div id="notificationsPage" class="page">
+        <div class="notif-header">
+          <h2 data-i18n="notifications">الإشعارات</h2>
+          <button class="btn-small" onclick="markAllRead()" data-i18n="mark_all_read">تحديد الكل كمقروء</button>
+        </div>
+        <div id="notificationsList" class="notifications-list"></div>
+      </div>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" onclick="showPage('matches')" data-page="matches">
+        <span class="nav-icon">⚽</span>
+        <span data-i18n="matches">المباريات</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('teams')" data-page="teams">
+        <span class="nav-icon">📋</span>
+        <span data-i18n="teams">المنتخبات</span>
+      </button>
+      <button class="nav-btn" onclick="showPage('notifications')" data-page="notifications">
+        <span class="nav-icon">🔔</span>
+        <span data-i18n="notifications_tab">الإشعارات</span>
+      </button>
+    </nav>
+  </div>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
