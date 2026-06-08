@@ -10,7 +10,7 @@ const matchSchema = new mongoose.Schema({
   awayTeamNameAr: { type: String },
   homeScore: { type: Number, default: 0 },
   awayScore: { type: Number, default: 0 },
-  status: { type: String, default: 'SCHEDULED', enum: ['SCHEDULED', 'IN_PLAY', 'PAUSED', 'FINISHED'] },
+  status: { type: String, default: 'SCHEDULED', enum: ['SCHEDULED', 'TIMED', 'IN_PLAY', 'PAUSED', 'FINISHED', 'POSTPONED', 'CANCELLED', 'AWARDED'] },
   utcDate: { type: Date, required: true },
   matchday: { type: Number },
   group: { type: String },

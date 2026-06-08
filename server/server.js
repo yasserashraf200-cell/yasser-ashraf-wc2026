@@ -45,7 +45,7 @@ app.get('*', (req, res) => {
 
 setInterval(() => {
   trackMatches();
-}, 6000);
+}, 30000);
 
 setInterval(() => {
   trackMatches(true);
