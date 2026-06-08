@@ -32,6 +32,8 @@ async function trackMatches(fastOnly = false, slowOnly = false) {
       if (fastOnly && !isLive) continue;
       if (slowOnly && !isFinished) continue;
 
+      if (!apiMatch.homeTeam || !apiMatch.awayTeam) continue;
+
       const homeTeamId = apiMatch.homeTeam.id;
       const awayTeamId = apiMatch.awayTeam.id;
       const homeTeamName = apiMatch.homeTeam.name;

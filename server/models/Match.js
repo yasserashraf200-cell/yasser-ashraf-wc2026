@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const matchSchema = new mongoose.Schema({
   apiMatchId: { type: Number, required: true, unique: true },
-  homeTeamId: { type: Number, required: true },
-  awayTeamId: { type: Number, required: true },
+  homeTeamId: { type: Number },
+  awayTeamId: { type: Number },
   homeTeamName: { type: String },
   awayTeamName: { type: String },
   homeTeamNameAr: { type: String },
