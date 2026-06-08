@@ -1,5 +1,6 @@
 let currentPage = 'matches';
 let currentFilter = 'all';
+let currentGroup = 'all';
 let allMatches = [];
 let allTeams = [];
 let selectedTeams = JSON.parse(localStorage.getItem('selectedTeams')) || [];
@@ -22,6 +23,13 @@ function filterMatches(filter) {
   renderMatches();
 }
 
+function filterByGroup(group) {
+  currentGroup = group;
+  document.querySelectorAll('.group-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderMatches();
+}
+
 function renderTeamsSelection() {
   const container = document.getElementById('teamsSelection');
   if (!container) return;
@@ -30,8 +38,7 @@ function renderTeamsSelection() {
     return `
     <div class="team-card ${selectedTeams.includes(team.id) ? 'selected' : ''}" onclick="toggleTeam(${team.id})">
       <div class="team-crest-container">
-        ${flagUrl ? `<img src="${flagUrl}" class="team-crest" alt="${team.name}" onerror="this.style.display='none'">` : ''}
-        <span class="team-flag">${getTeamFlagEmoji(team.id)}</span>
+        ${flagUrl ? `<img src="${flagUrl}" class="team-flag-card" alt="${team.name}">` : `<span class="team-flag-emoji">${getTeamFlagEmoji(team.id)}</span>`}
       </div>
       <div class="team-name">${currentLang === 'ar' ? team.nameAr : team.name}</div>
       <div class="team-check">${selectedTeams.includes(team.id) ? '✓' : ''}</div>
@@ -69,6 +76,7 @@ function renderMatches() {
   const container = document.getElementById('matchesList');
   if (!container) return;
   let filtered = [...allMatches];
+
   if (currentFilter === 'live') {
     filtered = filtered.filter(m => m.status === 'IN_PLAY' || m.status === 'PAUSED');
   } else if (currentFilter === 'upcoming') {
@@ -76,6 +84,11 @@ function renderMatches() {
   } else if (currentFilter === 'finished') {
     filtered = filtered.filter(m => m.status === 'FINISHED');
   }
+
+  if (currentGroup !== 'all') {
+    filtered = filtered.filter(m => m.group === currentGroup);
+  }
+
   if (filtered.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
@@ -97,7 +110,7 @@ function renderMatchCard(match) {
   const matchDate = new Date(match.utcDate);
   const timeStr = matchDate.toLocaleTimeString(currentLang === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' });
   const dateStr = matchDate.toLocaleDateString(currentLang === 'ar' ? 'ar-EG' : 'en-US', { month: 'short', day: 'numeric' });
-  const groupText = match.group ? t('groups')[match.group] || `Group ${match.group}` : match.stage;
+  const groupText = match.group ? (currentLang === 'ar' ? `المجموعة ${match.group}` : `Group ${match.group}`) : match.stage;
   const events = (match.events || []).map(e => `
     <div class="event">
       <span class="icon">⚽</span>
@@ -114,17 +127,15 @@ function renderMatchCard(match) {
       </div>
       <div class="match-teams">
         <div class="team-info home">
+          ${homeFlag ? `<img class="team-flag-img" src="${homeFlag}" alt="">` : `<span class="flag-emoji">${getTeamFlagEmoji(match.homeTeamId)}</span>`}
           <span class="name">${currentLang === 'ar' ? match.homeTeamNameAr : match.homeTeamName}</span>
-          ${homeFlag ? `<img class="team-flag-img" src="${homeFlag}" alt="" onerror="this.style.display='none'">` : ''}
-          <span class="flag">${getTeamFlagEmoji(match.homeTeamId)}</span>
         </div>
         <div class="score">
           ${isUpcoming ? 'VS' : `${match.homeScore} - ${match.awayScore}`}
         </div>
         <div class="team-info away">
-          ${awayFlag ? `<img class="team-flag-img" src="${awayFlag}" alt="" onerror="this.style.display='none'">` : ''}
-          <span class="flag">${getTeamFlagEmoji(match.awayTeamId)}</span>
           <span class="name">${currentLang === 'ar' ? match.awayTeamNameAr : match.awayTeamName}</span>
+          ${awayFlag ? `<img class="team-flag-img" src="${awayFlag}" alt="">` : `<span class="flag-emoji">${getTeamFlagEmoji(match.awayTeamId)}</span>`}
         </div>
       </div>
       ${events ? `<div class="match-events">${events}</div>` : ''}
@@ -146,8 +157,7 @@ function renderYourTeams() {
     const flagUrl = getTeamFlag(teamId);
     return `
     <div class="your-team-tag">
-      ${flagUrl ? `<img src="${flagUrl}" class="team-flag-tag" alt="" onerror="this.style.display='none'">` : ''}
-      <span>${getTeamFlagEmoji(teamId)}</span>
+      ${flagUrl ? `<img src="${flagUrl}" class="team-flag-tag" alt="">` : `<span>${getTeamFlagEmoji(teamId)}</span>`}
       <span>${getTeamName(teamId, currentLang)}</span>
     </div>
   `}).join('');
@@ -161,8 +171,7 @@ function renderAllTeams() {
     return `
     <div class="all-team-card" data-team-id="${team.id}">
       <div class="team-left">
-        ${flagUrl ? `<img src="${flagUrl}" class="team-flag-img" alt="" onerror="this.style.display='none'">` : ''}
-        <span class="flag">${getTeamFlagEmoji(team.id)}</span>
+        ${flagUrl ? `<img src="${flagUrl}" class="team-flag-img" alt="">` : `<span class="flag-emoji">${getTeamFlagEmoji(team.id)}</span>`}
         <span class="name">${currentLang === 'ar' ? team.nameAr : team.name}</span>
       </div>
       <button class="action-btn ${selectedTeams.includes(team.id) ? 'added' : ''}" onclick="toggleTeam(${team.id})">
