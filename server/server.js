@@ -22,15 +22,16 @@ const PORT = process.env.PORT || 3000;
 app.use(compression());
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(async () => {
     console.log('Connected to MongoDB');
-    await Match.deleteMany({});
-    console.log('Cleared old matches');
     await seedTeams();
+    console.log('Teams seeded, starting match tracking...');
     await trackMatches();
+    const matchCount = await Match.countDocuments();
+    console.log(`Startup complete. ${matchCount} matches loaded.`);
   })
   .catch(err => console.error('MongoDB connection error:', err));
 
@@ -49,15 +50,7 @@ app.get('*', (req, res) => {
 
 setInterval(() => {
   trackMatches();
-}, 30000);
-
-setInterval(() => {
-  trackMatches(true);
 }, 60000);
-
-setInterval(() => {
-  trackMatches(false, true);
-}, 300000);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
