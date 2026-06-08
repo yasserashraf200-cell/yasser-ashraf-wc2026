@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 3000;
 app.use(compression());
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(async () => {

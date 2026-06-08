@@ -4,40 +4,68 @@ const Notification = require('../models/Notification');
 const { getMatches } = require('./footballApi');
 const { sendNotificationToUsers } = require('./notificationService');
 
-const teamNamesAr = {
-  773: 'مصر', 778: 'السعودية', 792: 'المغرب', 790: 'تونس', 789: 'الجزائر',
-  783: 'الأرجنتين', 772: 'البرازيل', 762: 'ألمانيا', 773: 'مصر',
-  771: 'فرنسا', 770: 'إنجلترا', 769: 'إسبانيا', 784: 'إيطاليا',
-  786: 'هولندا', 785: 'البرتغال', 782: 'اليابان', 780: 'كوريا',
-  768: 'المكسيك', 767: 'أمريكا', 794: 'الإمارات', 791: 'قطر',
-  795: 'هونغ كونغ', 781: 'إيران', 779: 'الأردن', 793: 'أستراليا',
-  796: 'العراق', 797: 'أوزبكستان', 798: 'بنما', 799: 'كوستاريكا',
-  800: 'هايتي', 801: 'كوراساو', 802: 'بنما', 803: 'باراغواي',
-  804: 'إكوادور', 805: 'كولومبيا', 806: 'أوروغواي', 807: 'بيرو',
-  808: 'بوليفيا', 809: 'تشيلي', 810: 'فنزويلا', 811: 'غانا',
-  812: 'الكاميرون', 813: 'نيجيريا', 814: 'السنغال', 815: 'ساحل العاج',
-  816: 'جنوب أفريقيا', 817: 'كينيا', 818: 'أثيوبيا', 819: 'تنزانيا',
-  820: 'نيوزيلندا', 821: 'فيجي', 822: 'بابوا غينيا الجديدة',
-  1882: 'بلجيكا', 1883: 'سويسرا', 1884: 'الدنمارك', 1885: 'السويد',
-  1886: 'النرويج', 1887: 'بولندا', 1888: 'النمسا', 1889: ' التشيك',
-  1890: 'رومانيا', 1891: 'صربيا', 1892: 'كرواتيا', 1893: 'بلغاريا',
-  1894: 'المجر', 1895: 'سلوفاكيا', 1896: 'سلوفينيا', 1897: 'ليتوانيا',
-  1898: 'لاتفيا', 1899: 'إستونيا', 1900: 'بيلاروسيا', 1901: 'أوكرانيا',
-  1902: 'جورجيا', 1903: 'أرمينيا', 1904: 'أذربيجان', 1905: 'كازاخستان',
-  1906: 'قيرغيزستان', 1907: 'طاجيكستان', 1908: 'تركمانستان',
-  1909: 'كوريا الشمالية', 1910: 'الصين', 1911: 'تايلاند', 1912: 'فيتنام',
-  1913: 'ماليزيا', 1914: 'إندونيسيا', 1915: 'الفلبين', 1916: 'سنغافورة',
-  1917: 'ميانمار', 1918: 'كمبوديا', 1919: 'لاوس', 1920: 'بروناي',
-  1921: 'تيمور الشرقية', 1922: 'منغوليا', 1923: 'غواتيمالا',
-  1924: 'هندوراس', 1925: 'السلفادور', 1926: 'نيكاراغوا',
-  1927: 'كوستاريكا', 1928: 'بنما', 1929: 'كوبا', 1930: 'جامايكا',
-  1931: 'ترينيداد وتوباغو', 1932: 'هايتي', 1933: 'غيانا',
-  1934: 'سورينام', 1935: 'بربادوس', 1936: 'البهاما',
-  1937: 'بليز', 1938: 'سانت لوسيا', 1938: 'سانت فينسنت والغرينادين',
-  1939: 'غرناطة', 1940: 'دومينيكا', 1941: 'سانت كيتس ونيفيس',
-  1942: 'أنتيغوا وباربودا', 1943: 'جزر العذراء الأمريكية',
-  1944: 'جزر العذراء البريطانية', 1945: 'كوراساو'
+const teamNamesMap = {
+  'Egypt': { ar: 'مصر', id: 825 },
+  'Saudi Arabia': { ar: 'السعودية', id: 801 },
+  'Morocco': { ar: 'المغرب', id: 815 },
+  'Tunisia': { ar: 'تونس', id: 802 },
+  'Algeria': { ar: 'الجزائر', id: 778 },
+  'Argentina': { ar: 'الأرجنتين', id: 762 },
+  'Brazil': { ar: 'البرازيل', id: 764 },
+  'Germany': { ar: 'ألمانيا', id: 759 },
+  'France': { ar: 'فرنسا', id: 773 },
+  'England': { ar: 'إنجلترا', id: 770 },
+  'Spain': { ar: 'إسبانيا', id: 760 },
+  'Italy': { ar: 'إيطاليا', id: 786 },
+  'Netherlands': { ar: 'هولندا', id: 8601 },
+  'Portugal': { ar: 'البرتغال', id: 765 },
+  'Japan': { ar: 'اليابان', id: 766 },
+  'South Korea': { ar: 'كوريا الجنوبية', id: 772 },
+  'Mexico': { ar: 'المكسيك', id: 769 },
+  'United States': { ar: 'أمريكا', id: 771 },
+  'Qatar': { ar: 'قطر', id: 8030 },
+  'Australia': { ar: 'أستراليا', id: 779 },
+  'Iraq': { ar: 'العراق', id: 8062 },
+  'Iran': { ar: 'إيران', id: 840 },
+  'Belgium': { ar: 'بلجيكا', id: 805 },
+  'Switzerland': { ar: 'سويسرا', id: 788 },
+  'Croatia': { ar: 'كرواتيا', id: 799 },
+  'Sweden': { ar: 'السويد', id: 792 },
+  'Senegal': { ar: 'السنغال', id: 804 },
+  'Ghana': { ar: 'غانا', id: 763 },
+  'Cameroon': { ar: 'الكاميرون', id: 812 },
+  'Nigeria': { ar: 'نيجيريا', id: 813 },
+  'Ivory Coast': { ar: 'ساحل العاج', id: 1935 },
+  'South Africa': { ar: 'جنوب أفريقيا', id: 774 },
+  'New Zealand': { ar: 'نيوزيلندا', id: 783 },
+  'Poland': { ar: 'بولندا', id: 827 },
+  'Austria': { ar: 'النمسا', id: 816 },
+  'Czechia': { ar: 'التشيك', id: 798 },
+  'Serbia': { ar: 'صربيا', id: 866 },
+  'Norway': { ar: 'النرويج', id: 8872 },
+  'Denmark': { ar: 'الدنمارك', id: 820 },
+  'Turkey': { ar: 'تركيا', id: 803 },
+  'Uruguay': { ar: 'أوروغواي', id: 758 },
+  'Colombia': { ar: 'كولومبيا', id: 818 },
+  'Ecuador': { ar: 'إكوادور', id: 791 },
+  'Paraguay': { ar: 'باراغواي', id: 761 },
+  'Canada': { ar: 'كندا', id: 828 },
+  'Panama': { ar: 'بنما', id: 1836 },
+  'Haiti': { ar: 'هايتي', id: 836 },
+  'Jordan': { ar: 'الأردن', id: 8049 },
+  'Uzbekistan': { ar: 'أوزبكستان', id: 8070 },
+  'Bosnia-Herzegovina': { ar: 'البوسنة والهرسك', id: 1060 },
+  'Cape Verde Islands': { ar: 'الرأس الأخضر', id: 1930 },
+  'Congo DR': { ar: 'الكونغو الديمقراطية', id: 1934 },
+  'Curaçao': { ar: 'كوراساو', id: 9460 },
+  'Scotland': { ar: 'اسكتلندا', id: 8873 }
 };
+
+function getTeamInfo(teamName) {
+  const info = teamNamesMap[teamName];
+  if (info) return info;
+  return { ar: teamName, id: 0 };
+}
 
 async function trackMatches(fastOnly = false, slowOnly = false) {
   try {
@@ -46,18 +74,23 @@ async function trackMatches(fastOnly = false, slowOnly = false) {
     for (const apiMatch of apiMatches) {
       const isLive = apiMatch.status === 'IN_PLAY' || apiMatch.status === 'PAUSED';
       const isFinished = apiMatch.status === 'FINISHED';
+      const isScheduled = apiMatch.status === 'TIMED' || apiMatch.status === 'SCHEDULED';
       if (fastOnly && !isLive) continue;
       if (slowOnly && !isFinished) continue;
+
+      const homeInfo = getTeamInfo(apiMatch.homeTeam.name);
+      const awayInfo = getTeamInfo(apiMatch.awayTeam.name);
+
       let match = await Match.findOne({ apiMatchId: apiMatch.id });
       if (!match) {
         match = new Match({
           apiMatchId: apiMatch.id,
-          homeTeamId: apiMatch.homeTeam.id,
-          awayTeamId: apiMatch.awayTeam.id,
-          homeTeamName: apiMatch.homeTeam.shortName || apiMatch.homeTeam.name,
-          awayTeamName: apiMatch.awayTeam.shortName || apiMatch.awayTeam.name,
-          homeTeamNameAr: teamNamesAr[apiMatch.homeTeam.id] || apiMatch.homeTeam.name,
-          awayTeamNameAr: teamNamesAr[apiMatch.awayTeam.id] || apiMatch.awayTeam.name,
+          homeTeamId: homeInfo.id || apiMatch.homeTeam.id,
+          awayTeamId: awayInfo.id || apiMatch.awayTeam.id,
+          homeTeamName: apiMatch.homeTeam.name,
+          awayTeamName: apiMatch.awayTeam.name,
+          homeTeamNameAr: homeInfo.ar,
+          awayTeamNameAr: awayInfo.ar,
           homeScore: apiMatch.score.fullTime.home || 0,
           awayScore: apiMatch.score.fullTime.away || 0,
           status: apiMatch.status,
@@ -138,8 +171,8 @@ async function createNotification(user, match, type, teamId) {
       ? `${teamName} scored! ${match.homeTeamName} ${match.homeScore} - ${match.awayScore} ${match.awayTeamName}`
       : `${teamName} conceded! ${match.homeTeamName} ${match.homeScore} - ${match.awayScore} ${match.awayTeamName}`;
     const messageAr = isScored
-      ? `${teamNameAr} سجلت جول! ${match.homeTeamNameAr} ${match.homeScore} - ${match.awayScore} ${match.awayTeamNameAr}`
-      : `${teamNameAr} استقبلت جول! ${match.homeTeamNameAr} ${match.homeScore} - ${match.awayScore} ${match.awayTeamNameAr}`;
+      ? `${teamNameAr} سجلت هدف! ${match.homeTeamNameAr} ${match.homeScore} - ${match.awayScore} ${match.awayTeamNameAr}`
+      : `${teamNameAr} استقبلت هدف! ${match.homeTeamNameAr} ${match.homeScore} - ${match.awayScore} ${match.awayTeamNameAr}`;
     const notification = new Notification({
       userId: user._id,
       matchId: match._id,
@@ -162,7 +195,7 @@ async function createNotification(user, match, type, teamId) {
     await notification.save();
     await sendNotificationToUsers(user, {
       title: isScored ? `${teamName} scored!` : `${teamName} conceded!`,
-      titleAr: isScored ? `${teamNameAr} سجلت جول!` : `${teamNameAr} استقبلت جول!`,
+      titleAr: isScored ? `${teamNameAr} سجلت هدف!` : `${teamNameAr} استقبلت هدف!`,
       body: message,
       bodyAr: messageAr,
       teamId,

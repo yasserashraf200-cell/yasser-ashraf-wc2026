@@ -81,7 +81,7 @@ function renderMatches() {
   if (currentFilter === 'live') {
     filtered = filtered.filter(m => m.status === 'IN_PLAY' || m.status === 'PAUSED');
   } else if (currentFilter === 'upcoming') {
-    filtered = filtered.filter(m => m.status === 'SCHEDULED');
+    filtered = filtered.filter(m => m.status === 'SCHEDULED' || m.status === 'TIMED');
   } else if (currentFilter === 'finished') {
     filtered = filtered.filter(m => m.status === 'FINISHED');
   }
@@ -105,7 +105,7 @@ function renderMatches() {
 function renderMatchCard(match) {
   const isLive = match.status === 'IN_PLAY' || match.status === 'PAUSED';
   const isFinished = match.status === 'FINISHED';
-  const isUpcoming = match.status === 'SCHEDULED';
+  const isUpcoming = match.status === 'SCHEDULED' || match.status === 'TIMED';
   const statusClass = isLive ? 'live' : isFinished ? 'finished' : 'upcoming';
   const statusText = isLive ? t('live') : isFinished ? t('finished') : t('upcoming');
   const matchDate = new Date(match.utcDate);
