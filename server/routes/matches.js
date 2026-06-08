@@ -47,4 +47,13 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.delete('/clear', async (req, res) => {
+  try {
+    await Match.deleteMany({});
+    res.json({ message: 'All matches cleared' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

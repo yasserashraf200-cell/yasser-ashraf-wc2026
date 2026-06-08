@@ -4,70 +4,20 @@ const Notification = require('../models/Notification');
 const { getMatches } = require('./footballApi');
 const { sendNotificationToUsers } = require('./notificationService');
 
-const teamNamesMap = {
-  'Mexico': 'المكسيك',
-  'South Korea': 'كوريا الجنوبية',
-  'South Africa': 'جنوب أفريقيا',
-  'Czechia': 'التشيك',
-  'Canada': 'كندا',
-  'Switzerland': 'سويسرا',
-  'Qatar': 'قطر',
-  'Bosnia-Herzegovina': 'البوسنة والهرسك',
-  'Brazil': 'البرازيل',
-  'Morocco': 'المغرب',
-  'Scotland': 'اسكتلندا',
-  'Haiti': 'هايتي',
-  'United States': 'أمريكا',
-  'Paraguay': 'باراغواي',
-  'Australia': 'أستراليا',
-  'Turkey': 'تركيا',
-  'Germany': 'ألمانيا',
-  'Ecuador': 'إكوادور',
-  'Ivory Coast': 'ساحل العاج',
-  'Curaçao': 'كوراساو',
-  'Netherlands': 'هولندا',
-  'Japan': 'اليابان',
-  'Tunisia': 'تونس',
-  'Sweden': 'السويد',
-  'Belgium': 'بلجيكا',
-  'Egypt': 'مصر',
-  'IR Iran': 'إيران',
-  'New Zealand': 'نيوزيلندا',
-  'Spain': 'إسبانيا',
-  'Cape Verde': 'الرأس الأخضر',
-  'Saudi Arabia': 'السعودية',
-  'Uruguay': 'أوروغواي',
-  'France': 'فرنسا',
-  'Senegal': 'السنغال',
-  'Iraq': 'العراق',
-  'Norway': 'النرويج',
-  'Argentina': 'الأرجنتين',
-  'Austria': 'النمسا',
-  'Algeria': 'الجزائر',
-  'Jordan': 'الأردن',
-  'Portugal': 'البرتغال',
-  'Colombia': 'كولومبيا',
-  'Uzbekistan': 'أوزبكستان',
-  'Congo DR': 'الكونغو الديمقراطية',
-  'England': 'إنجلترا',
-  'Croatia': 'كرواتيا',
-  'Ghana': 'غانا',
-  'Panama': 'بنما'
-};
-
-const teamIdsMap = {
-  'Mexico': 769, 'South Korea': 772, 'South Africa': 774, 'Czechia': 798,
-  'Canada': 828, 'Switzerland': 788, 'Qatar': 8030, 'Bosnia-Herzegovina': 1060,
-  'Brazil': 764, 'Morocco': 815, 'Scotland': 8873, 'Haiti': 836,
-  'United States': 771, 'Paraguay': 761, 'Australia': 779, 'Turkey': 803,
-  'Germany': 759, 'Ecuador': 791, 'Ivory Coast': 1935, 'Curaçao': 9460,
-  'Netherlands': 8601, 'Japan': 766, 'Tunisia': 802, 'Sweden': 792,
-  'Belgium': 805, 'Egypt': 825, 'IR Iran': 840, 'New Zealand': 783,
-  'Spain': 760, 'Cape Verde': 1930, 'Saudi Arabia': 801, 'Uruguay': 758,
-  'France': 773, 'Senegal': 804, 'Iraq': 8062, 'Norway': 8872,
-  'Argentina': 762, 'Austria': 816, 'Algeria': 778, 'Jordan': 8049,
-  'Portugal': 765, 'Colombia': 818, 'Uzbekistan': 8070, 'Congo DR': 1934,
-  'England': 770, 'Croatia': 799, 'Ghana': 763, 'Panama': 1836
+const teamNamesAr = {
+  758: 'أوروغواي', 759: 'ألمانيا', 760: 'إسبانيا', 761: 'باراغواي',
+  762: 'الأرجنتين', 763: 'غانا', 764: 'البرازيل', 765: 'البرتغال',
+  766: 'اليابان', 769: 'المكسيك', 770: 'إنجلترا', 771: 'أمريكا',
+  772: 'كوريا الجنوبية', 773: 'فرنسا', 774: 'جنوب أفريقيا',
+  778: 'الجزائر', 779: 'أستراليا', 783: 'نيوزيلندا', 788: 'سويسرا',
+  791: 'إكوادور', 792: 'السويد', 798: 'التشيك', 799: 'كرواتيا',
+  801: 'السعودية', 802: 'تونس', 803: 'تركيا', 804: 'السنغال',
+  805: 'بلجيكا', 815: 'المغرب', 816: 'النمسا', 818: 'كولومبيا',
+  825: 'مصر', 828: 'كندا', 836: 'هايتي', 840: 'إيران',
+  1060: 'البوسنة والهرسك', 1836: 'بنما', 1930: 'الرأس الأخضر',
+  1934: 'الكونغو الديمقراطية', 1935: 'ساحل العاج', 8030: 'قطر',
+  8049: 'الأردن', 8062: 'العراق', 8070: 'أوزبكستان', 8601: 'هولندا',
+  8872: 'النرويج', 8873: 'اسكتلندا', 9460: 'كوراساو'
 };
 
 async function trackMatches(fastOnly = false, slowOnly = false) {
@@ -80,12 +30,12 @@ async function trackMatches(fastOnly = false, slowOnly = false) {
       if (fastOnly && !isLive) continue;
       if (slowOnly && !isFinished) continue;
 
-      const homeNameEn = apiMatch.homeTeam.name;
-      const awayNameEn = apiMatch.awayTeam.name;
-      const homeNameAr = teamNamesMap[homeNameEn] || homeNameEn;
-      const awayNameAr = teamNamesMap[awayNameEn] || awayNameEn;
-      const homeTeamId = teamIdsMap[homeNameEn] || apiMatch.homeTeam.id;
-      const awayTeamId = teamIdsMap[awayNameEn] || apiMatch.awayTeam.id;
+      const homeTeamId = apiMatch.homeTeam.id;
+      const awayTeamId = apiMatch.awayTeam.id;
+      const homeTeamName = apiMatch.homeTeam.name;
+      const awayTeamName = apiMatch.awayTeam.name;
+      const homeTeamNameAr = teamNamesAr[homeTeamId] || homeTeamName;
+      const awayTeamNameAr = teamNamesAr[awayTeamId] || awayTeamName;
 
       let match = await Match.findOne({ apiMatchId: apiMatch.id });
       if (!match) {
@@ -93,10 +43,10 @@ async function trackMatches(fastOnly = false, slowOnly = false) {
           apiMatchId: apiMatch.id,
           homeTeamId: homeTeamId,
           awayTeamId: awayTeamId,
-          homeTeamName: homeNameEn,
-          awayTeamName: awayNameEn,
-          homeTeamNameAr: homeNameAr,
-          awayTeamNameAr: awayNameAr,
+          homeTeamName: homeTeamName,
+          awayTeamName: awayTeamName,
+          homeTeamNameAr: homeTeamNameAr,
+          awayTeamNameAr: awayTeamNameAr,
           homeScore: apiMatch.score.fullTime.home || 0,
           awayScore: apiMatch.score.fullTime.away || 0,
           status: apiMatch.status,
