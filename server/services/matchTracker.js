@@ -39,11 +39,15 @@ const teamNamesAr = {
   1944: 'جزر العذراء البريطانية', 1945: 'كوراساو'
 };
 
-async function trackMatches() {
+async function trackMatches(fastOnly = false, slowOnly = false) {
   try {
     console.log('Tracking matches...');
     const apiMatches = await getMatches();
     for (const apiMatch of apiMatches) {
+      const isLive = apiMatch.status === 'IN_PLAY' || apiMatch.status === 'PAUSED';
+      const isFinished = apiMatch.status === 'FINISHED';
+      if (fastOnly && !isLive) continue;
+      if (slowOnly && !isFinished) continue;
       let match = await Match.findOne({ apiMatchId: apiMatch.id });
       if (!match) {
         match = new Match({

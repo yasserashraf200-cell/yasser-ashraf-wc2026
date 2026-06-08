@@ -43,9 +43,17 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-cron.schedule('*/1 * * * *', () => {
+setInterval(() => {
   trackMatches();
-});
+}, 6000);
+
+setInterval(() => {
+  trackMatches(true);
+}, 60000);
+
+setInterval(() => {
+  trackMatches(false, true);
+}, 300000);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
