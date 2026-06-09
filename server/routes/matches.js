@@ -1,69 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const Match = require('../models/Match');
-const { trackMatches } = require('../services/matchTracker');
+const axios = require('axios');
+
+const API_KEY = process.env.FOOTBALL_API_KEY;
+const API_URL = 'https://api.football-data.org/v4/competitions/2000/matches';
 
 router.get('/', async (req, res) => {
   try {
-    const { status, group, matchday } = req.query;
-    let query = {};
-    if (status) query.status = status;
-    if (group) query.group = group;
-    if (matchday) query.matchday = parseInt(matchday);
-    const matches = await Match.find(query).sort({ utcDate: 1 });
-    res.json(matches);
+    const response = await axios.get(API_URL, {
+      headers: { 'X-Auth-Token': API_KEY }
+    });
+    res.json(response.data.matches || []);
   } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.get('/live', async (req, res) => {
-  try {
-    const matches = await Match.find({ status: { $in: ['IN_PLAY', 'PAUSED'] } }).sort({ utcDate: 1 });
-    res.json(matches);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.get('/team/:teamId', async (req, res) => {
-  try {
-    const teamId = parseInt(req.params.teamId);
-    const matches = await Match.find({
-      $or: [{ homeTeamId: teamId }, { awayTeamId: teamId }]
-    }).sort({ utcDate: 1 });
-    res.json(matches);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.get('/:id', async (req, res) => {
-  try {
-    const match = await Match.findOne({ apiMatchId: parseInt(req.params.id) });
-    if (!match) return res.status(404).json({ error: 'Match not found' });
-    res.json(match);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.delete('/clear', async (req, res) => {
-  try {
-    await Match.deleteMany({});
-    res.json({ message: 'All matches cleared' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.post('/track', async (req, res) => {
-  try {
-    await trackMatches();
-    const count = await Match.countDocuments();
-    res.json({ message: `Tracking done. ${count} matches in DB` });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Error fetching matches:', error.message);
+    res.status(500).json({ error: 'Failed to fetch matches' });
   }
 });
 
