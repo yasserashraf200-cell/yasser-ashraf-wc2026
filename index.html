@@ -366,8 +366,10 @@ function sp(p){
 
 var selectedTeam=null;
 function renderTeams(){
-  document.getElementById("tpTitle").style.display="none";
-  document.getElementById("tpList").innerHTML="";
+  if(!selectedTeam){
+    document.getElementById("tpTitle").style.display="none";
+    document.getElementById("tpList").innerHTML="";
+  }
   var codes=Object.keys(teams);
   codes.sort(function(a,b){return(teams[a].a).localeCompare(teams[b].a,'ar')});
   var h="";
@@ -382,7 +384,7 @@ function selectTeam(code){
   selectedTeam=code;
   var t=teams[code];
   document.getElementById("tpTitle").style.display="block";
-  document.getElementById("tpTitle").textContent=t.a+' - مباريات المنتخب';
+  document.getElementById("tpTitle").innerHTML='<span onclick="selectedTeam=null;renderTeams()" style="cursor:pointer;margin-left:10px;font-size:.8rem;color:#999">الرجوع للكل</span> '+t.a+' - مباريات المنتخب';
   var filtered=[];
   for(var i=0;i<matchData.length;i++){
     var m=matchData[i];
@@ -413,7 +415,15 @@ function selectTeam(code){
     html+='</div>';
   }
   document.getElementById("tpList").innerHTML=html||'<div style="text-align:center;padding:40px;color:#999">مفيش مباريات</div>';
-  renderTeams();
+  var codes=Object.keys(teams);
+  codes.sort(function(a,b){return(teams[a].a).localeCompare(teams[b].a,'ar')});
+  var gh="";
+  for(var i=0;i<codes.length;i++){
+    var c2=codes[i],t2=teams[c2];
+    var sc=code===c2?'border-color:#D4AF37;background:#1a1a1a':'';
+    gh+='<div onclick="selectTeam(\''+c2+'\')" style="display:flex;align-items:center;gap:8px;padding:10px;background:#111;border:2px solid #333;border-radius:10px;cursor:pointer;'+sc+'">'+fl(t2.f)+'<div style="display:flex;flex-direction:column"><span style="font-weight:bold;font-size:.9rem">'+t2.a+'</span><span style="font-size:.65rem;color:#999">'+t2.e+'</span></div></div>';
+  }
+  document.getElementById("teamsGrid").innerHTML=gh;
 }
 function tl(){
   lg=lg==="ar"?"en":"ar";
