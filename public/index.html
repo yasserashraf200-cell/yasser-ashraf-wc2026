@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yasser Ashraf FIFA WORLD CUP 2026</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Tahoma,sans-serif;background:#0D1B2A;color:#fff}
+.hdr{background:#1E3A5F;padding:12px 16px;position:fixed;top:0;left:0;right:0;z-index:10;border-bottom:2px solid #C9A84C;display:flex;justify-content:space-between;align-items:center}
+.hdr img{height:40px;width:40px}
+.hdr .t{font-size:1rem;font-weight:bold;color:#C9A84C}
+.hdr .s{font-size:.6rem;color:#B0BEC5}
+.lb{background:#1E3A5F;color:#C9A84C;border:1px solid #C9A84C;padding:5px 12px;border-radius:8px;cursor:pointer;font-weight:bold}
+.mn{margin-top:65px;margin-bottom:65px;padding:12px;max-width:800px;margin-left:auto;margin-right:auto}
+.tabs{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto}
+.tab{background:#1E3A5F;color:#B0BEC5;border:1px solid #2C5282;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:.8rem;white-space:nowrap}
+.tab.a{background:#C9A84C;color:#1A1A1A}
+.gr{display:flex;gap:5px;margin-bottom:12px;overflow-x:auto}
+.gb{background:#1E3A5F;color:#B0BEC5;border:1px solid #2C5282;padding:5px 10px;border-radius:18px;cursor:pointer;font-size:.75rem;font-weight:bold;min-width:32px;text-align:center}
+.gb.a{background:#C9A84C;color:#1A1A1A}
+.mc{background:#1E3A5F;border:1px solid #2C5282;border-radius:10px;padding:14px;margin-bottom:10px}
+.mc.lv{border-color:#F44336}
+.mh{display:flex;justify-content:space-between;margin-bottom:10px}
+.ms{padding:2px 8px;border-radius:16px;font-size:.7rem;font-weight:bold}
+.ms.lv{background:#F44336;color:#fff}
+.ms.up{background:#2196F3;color:#fff}
+.ms.fn{background:#9E9E9E;color:#fff}
+.mg{color:#B0BEC5;font-size:.75rem}
+.mt{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.ti{display:flex;align-items:center;gap:8px;flex:1}
+.ti.h{justify-content:flex-end;text-align:right}
+.ti.a{justify-content:flex-start;text-align:left}
+.ti img{width:36px;height:27px;border-radius:3px}
+.tn{display:flex;flex-direction:column;gap:1px}
+.tn .ar{font-size:.9rem;font-weight:bold}
+.tn .en{font-size:.65rem;color:#B0BEC5}
+.sc{font-size:1.3rem;font-weight:bold;color:#C9A84C;min-width:70px;text-align:center}
+.tm{text-align:center;color:#B0BEC5;margin-top:8px;font-size:.75rem}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.gc{background:#1E3A5F;border:1px solid #2C5282;border-radius:10px;overflow:hidden}
+.gh{background:linear-gradient(135deg,#C9A84C,#E8D48B);padding:8px 14px;display:flex;align-items:center;gap:6px}
+.gl{font-size:1.2rem;font-weight:bold;color:#1A1A1A}
+.gt{font-size:.85rem;font-weight:bold;color:#1A1A1A}
+.gts{padding:10px}
+.grw{display:flex;align-items:center;gap:8px;padding:7px 8px;background:#1B2838;border-radius:6px;margin-bottom:5px}
+.grw:last-child{margin-bottom:0}
+.grw img{width:30px;height:22px;border-radius:2px}
+.grw span{font-size:.85rem}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#1B2838;border-top:2px solid #C9A84C;display:flex;justify-content:space-around;padding:8px 0;z-index:100}
+.nb{background:none;border:none;color:#B0BEC5;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 16px;font-size:.75rem}
+.nb.a{color:#C9A84C}
+.nb .i{font-size:1.1rem}
+.empty{text-align:center;padding:40px;color:#B0BEC5}
+.sp{width:36px;height:36px;border:4px solid #2C5282;border-top-color:#C9A84C;border-radius:50%;animation:sp 1s linear infinite;margin:30px auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div style="display:flex;align-items:center;gap:10px">
+    <img src="https://crests.football-data.org/wm26.png" alt="">
+    <div><div class="t">Yasser Ashraf</div><div class="s">FIFA WORLD CUP 2026</div></div>
+  </div>
+  <button class="lb" onclick="tl()">EN</button>
+</div>
+<div class="mn">
+  <div id="mp">
+    <div class="tabs" id="tabs"></div>
+    <div class="gr" id="gr"></div>
+    <div id="ml"><div class="sp"></div></div>
+  </div>
+  <div id="gp" style="display:none"><div class="gg" id="gc"></div></div>
+</div>
+<div class="bnav">
+  <button class="nb a" onclick="sp('m')"><span class="i">⚽</span><span>المباريات</span></button>
+  <button class="nb" onclick="sp('g')"><span class="i">📋</span><span>المجموعات</span></button>
+</div>
+<script>
+const T={769:{a:'المكسيك',e:'Mexico',f:'mx'},772:{a:'كوريا الجنوبية',e:'South Korea',f:'kr'},774:{a:'جنوب أفريقيا',e:'South Africa',f:'za'},798:{a:'التشيك',e:'Czechia',f:'cz'},828:{a:'كندا',e:'Canada',f:'ca'},788:{a:'سويسرا',e:'Switzerland',f:'ch'},8030:{a:'قطر',e:'Qatar',f:'qa'},1060:{a:'البوسنة والهرسك',e:'Bosnia',f:'ba'},764:{a:'البرازيل',e:'Brazil',f:'br'},815:{a:'المغرب',e:'Morocco',f:'ma'},8873:{a:'اسكتلندا',e:'Scotland',f:'gb'},836:{a:'هايتي',e:'Haiti',f:'ht'},771:{a:'أمريكا',e:'USA',f:'us'},761:{a:'باراغواي',e:'Paraguay',f:'py'},779:{a:'أستراليا',e:'Australia',f:'au'},803:{a:'تركيا',e:'Turkey',f:'tr'},759:{a:'ألمانيا',e:'Germany',f:'de'},791:{a:'إكوادور',e:'Ecuador',f:'ec'},1935:{a:'ساحل العاج',e:'Ivory Coast',f:'ci'},9460:{a:'كوراساو',e:'Curaçao',f:'cw'},8601:{a:'هولندا',e:'Netherlands',f:'nl'},766:{a:'اليابان',e:'Japan',f:'jp'},802:{a:'تونس',e:'Tunisia',f:'tn'},792:{a:'السويد',e:'Sweden',f:'se'},805:{a:'بلجيكا',e:'Belgium',f:'be'},825:{a:'مصر',e:'Egypt',f:'eg'},840:{a:'إيران',e:'Iran',f:'ir'},783:{a:'نيوزيلندا',e:'New Zealand',f:'nz'},760:{a:'إسبانيا',e:'Spain',f:'es'},1930:{a:'الرأس الأخضر',e:'Cape Verde',f:'cv'},801:{a:'السعودية',e:'Saudi Arabia',f:'sa'},758:{a:'أوروغواي',e:'Uruguay',f:'uy'},773:{a:'فرنسا',e:'France',f:'fr'},804:{a:'السنغال',e:'Senegal',f:'sn'},8062:{a:'العراق',e:'Iraq',f:'iq'},8872:{a:'النرويج',e:'Norway',f:'no'},762:{a:'الأرجنتين',e:'Argentina',f:'ar'},816:{a:'النمسا',e:'Austria',f:'at'},778:{a:'الجزائر',e:'Algeria',f:'dz'},8049:{a:'الأردن',e:'Jordan',f:'jo'},765:{a:'البرتغال',e:'Portugal',f:'pt'},818:{a:'كولومبيا',e:'Colombia',f:'co'},8070:{a:'أوزبكستان',e:'Uzbekistan',f:'uz'},1934:{a:'الكونغو الديمقراطية',e:'Congo DR',f:'cd'},770:{a:'إنجلترا',e:'England',f:'gb'},799:{a:'كرواتيا',e:'Croatia',f:'hr'},763:{a:'غانا',e:'Ghana',f:'gh'},1836:{a:'بنما',e:'Panama',f:'pa'}};
+const GN={A:'المجموعة أ',B:'المجموعة ب',C:'المجموعة ج',D:'المجموعة د',E:'المجموعة ه',F:'المجموعة و',G:'المجموعة ز',H:'المجموعة ح',I:'المجموعة ي',J:'المجموعة ك',K:'المجموعة ل',L:'المجموعة م'};
+const GT={A:[769,772,774,798],B:[828,788,8030,1060],C:[764,815,8873,836],D:[771,761,779,803],E:[759,791,1935,9460],F:[8601,766,802,792],G:[805,825,840,783],H:[760,1930,801,758],I:[773,804,8062,8872],J:[762,816,778,8049],K:[765,818,8070,1934],L:[770,799,763,1836]};
+let AM=[],cs='all',cg='all',lg='ar';
+function fl(c){return'<img src="https://flagcdn.com/40x30/'+c+'.png">'}
+function tn(id){const t=T[id];return t?(lg==='ar'?t.a:t.e):'???'}
+function tf(id){const t=T[id];return t?t.f:''}
+function sp(p){document.getElementById('mp').style.display=p==='m'?'block':'none';document.getElementById('gp').style.display=p==='g'?'block':'none';document.querySelectorAll('.nb').forEach((b,i)=>b.classList.toggle('a',i===(p==='m'?0:1)));p==='m'?rm():rg()}
+function fs(s){cs=s;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('a'));event.target.classList.add('a');rm()}
+function fg(g){cg=g;document.querySelectorAll('.gb').forEach(b=>b.classList.toggle('a',b.dataset.g===g));rm()}
+function ri(){let h='<button class="tab a" onclick="fs(\'all\')">كل المباريات</button><button class="tab" onclick="fs(\'live\')">مباشر</button><button class="tab" onclick="fs(\'upcoming\')">قادمة</button><button class="tab" onclick="fs(\'finished\')">منتهية</button>';document.getElementById('tabs').innerHTML=h;let g='<button class="gb a" data-g="all" onclick="fg(\'all\')">الكل</button>';'ABCDEFGHIJKL'.split('').forEach(x=>{g+='<button class="gb" data-g="'+x+'" onclick="fg(\''+x+'\')">'+x+'</button>'});document.getElementById('gr').innerHTML=g}
+function rm(){let l=[...AM];if(cs==='live')l=l.filter(m=>m.status==='IN_PLAY'||m.status==='PAUSED');else if(cs==='upcoming')l=l.filter(m=>m.status==='SCHEDULED'||m.status==='TIMED');else if(cs==='finished')l=l.filter(m=>m.status==='FINISHED');if(cg!=='all')l=l.filter(m=>m.group==='GROUP_'+cg);if(!l.length){document.getElementById('ml').innerHTML='<div class="empty">⚽ مفيش مباريات</div>';return}document.getElementById('ml').innerHTML=l.map(m=>{const lv=m.status==='IN_PLAY'||m.status==='PAUSED';const fn=m.status==='FINISHED';const up=m.status==='SCHEDULED'||m.status==='TIMED';const sc=lv?'lv':fn?'fn':'up';const st=lv?'مباشر':fn?'منتهية':'قادمة';const hf=tf(m.homeTeam.id),af=tf(m.awayTeam.id);const gp=m.group?m.group.replace('GROUP_',''):'';const d=new Date(m.utcDate);const tm=d.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit',timeZone:'Africa/Cairo'});const dt=d.toLocaleDateString('ar-EG',{weekday:'short',month:'short',day:'numeric',timeZone:'Africa/Cairo'});return'<div class="mc'+(lv?' lv':'')+'"><div class="mh"><span class="ms '+sc+'">'+st+'</span><span class="mg">'+(gp?'المجموعة '+gp:m.stage||'')+'</span></div><div class="mt"><div class="ti h">'+(hf?fl(hf):'')+'<div class="tn"><span class="ar">'+tn(m.homeTeam.id)+'</span><span class="en">'+m.homeTeam.name+'</span></div></div><div class="sc">'+(up?'VS':m.score.fullTime.home+' - '+m.score.fullTime.away)+'</div><div class="ti a"><div class="tn"><span class="ar">'+tn(m.awayTeam.id)+'</span><span class="en">'+m.awayTeam.name+'</span></div>'+(af?fl(af):'')+'</div></div><div class="tm">'+(up?dt+' '+tm+' بتوقيت القاهرة':fn?dt+' - منتهية':dt)+'</div></div>'}).join('')}
+function rg(){let h='';'ABCDEFGHIJKL'.split('').forEach(g=>{const ids=GT[g];h+='<div class="gc"><div class="gh"><span class="gl">'+g+'</span><span class="gt">'+GN[g]+'</span></div><div class="gts">'+ids.map(id=>{const t=T[id];return'<div class="grw">'+(t?fl(t.f):'')+'<span>'+(t?(lg==='ar'?t.a:t.e):'???')+'</span></div>'}).join('')+'</div></div>'});document.getElementById('gc').innerHTML=h}
+function tl(){lg=lg==='ar'?'en':'ar';document.querySelector('.lb').textContent=lg==='ar'?'EN':'عربي';document.documentElement.dir=lg==='ar'?'rtl':'ltr';rm();rg()}
+async function lm(){try{const r=await fetch('/api/matches');AM=await r.json();ri();rm()}catch(e){document.getElementById('ml').innerHTML='<div class="empty">⚠️ خطأ في تحميل البيانات</div>'}}
+lm();setInterval(lm,60000);
+</script>
+</body>
+</html>
