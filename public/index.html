@@ -50,9 +50,9 @@ body{font-family:Tahoma,sans-serif;background:#0D1B2A;color:#fff}
 .grw img{width:30px;height:22px;border-radius:2px}
 .grw span{font-size:.85rem}
 .bnav{position:fixed;bottom:0;left:0;right:0;background:#0D1B2A;border-top:2px solid #C9A84C;display:flex;justify-content:space-around;padding:8px 0;z-index:100}
-.nb{background:none;border:none;color:#B0BEC5;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 16px;font-size:.75rem}
+.nb{background:none;border:none;color:#B0BEC5;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 8px;font-size:.65rem}
 .nb.a{color:#C9A84C}
-.nb .i{font-size:1.1rem}
+.nb .i{font-size:1rem}
 .day-hdr{color:#C9A84C;font-size:.85rem;font-weight:bold;padding:8px 0 4px;border-bottom:1px solid #2C5282;margin:12px 0 8px}
 </style>
 </head>
@@ -73,10 +73,18 @@ body{font-family:Tahoma,sans-serif;background:#0D1B2A;color:#fff}
     <div id="ml"></div>
   </div>
   <div id="gp" style="display:none"><div class="gg" id="gc"></div></div>
+  <div id="pp" style="display:none">
+    <div id="ppTitle" style="color:#C9A84C;font-size:1.1rem;font-weight:bold;text-align:center;margin-bottom:15px"></div>
+    <div id="ppTeams" style="display:flex;justify-content:center;gap:10px;margin-bottom:15px;flex-wrap:wrap"></div>
+    <div id="ppList"></div>
+  </div>
 </div>
 <div class="bnav">
   <button class="nb a" onclick="sp('m')"><span class="i">&#9917;</span><span>المباريات</span></button>
   <button class="nb" onclick="sp('g')"><span class="i">&#128203;</span><span>المجموعات</span></button>
+  <button class="nb" onclick="sp('omar')"><span class="i">&#128100;</span><span>عمر</span></button>
+  <button class="nb" onclick="sp('ziad')"><span class="i">&#128100;</span><span>زياد</span></button>
+  <button class="nb" onclick="sp('ashraf')"><span class="i">&#128100;</span><span>اشرف</span></button>
 </div>
 <script>
 var teams={
@@ -311,17 +319,64 @@ function fg(el,g){
   rm();
 }
 function sp(p){
-  document.getElementById("mp").style.display=p==="m"?"block":"none";
-  document.getElementById("gp").style.display=p==="g"?"block":"none";
+  var pages={m:"mp",g:"gp",omar:"pp",ziad:"pp",ashraf:"pp"};
+  var allP=["mp","gp","pp"];
+  for(var i=0;i<allP.length;i++){var el=document.getElementById(allP[i]);if(el)el.style.display="none"}
+  var target=document.getElementById(pages[p]);
+  if(target)target.style.display="block";
+  var idx={m:0,g:1,omar:2,ziad:3,ashraf:4};
   var nbs=document.querySelectorAll(".nb");
-  for(var i=0;i<nbs.length;i++)nbs[i].classList.toggle("a",i===(p==="m"?0:1));
+  for(var i=0;i<nbs.length;i++)nbs[i].classList.toggle("a",i===idx[p]);
   if(p==="g")rg();
+  if(p==="omar")rpm("مباريات عمر","عمر",["EG","AR"]);
+  if(p==="ziad")rpm("مباريات زياد","زياد",["EG","PT"]);
+  if(p==="ashraf")rpm("مباريات اشرف","اشرف",["EG"]);
 }
 function tl(){
   lg=lg==="ar"?"en":"ar";
   document.querySelector(".lb").textContent=lg==="ar"?"EN":"عربي";
   document.documentElement.dir=lg==="ar"?"rtl":"ltr";
   rm();
+}
+
+function rpm(title,name,codes){
+  document.getElementById("ppTitle").textContent=title;
+  var th="";
+  for(var i=0;i<codes.length;i++){
+    var t=teams[codes[i]];
+    th+='<div style="display:flex;align-items:center;gap:6px;background:#1E3A5F;padding:6px 12px;border-radius:20px">'+fl(t.f)+'<span style="font-weight:bold">'+t.a+'</span></div>';
+  }
+  document.getElementById("ppTeams").innerHTML=th;
+  var filtered=[];
+  for(var i=0;i<matchData.length;i++){
+    var m=matchData[i];
+    if(codes.indexOf(m[0])>=0||codes.indexOf(m[1])>=0)filtered.push(m);
+  }
+  filtered.sort(function(a,b){return new Date(a[2])-new Date(b[2])});
+  var html="";
+  var lastDay="";
+  for(var i=0;i<filtered.length;i++){
+    var m=filtered[i];
+    var d=new Date(m[2]);
+    var dayKey=d.toLocaleDateString("ar-EG",{timeZone:"Africa/Cairo",weekday:"long",year:"numeric",month:"long",day:"numeric"});
+    if(dayKey!==lastDay){lastDay=dayKey;html+='<div class="day-hdr">'+dayKey+'</div>'}
+    var hCode=m[0],aCode=m[1];
+    var t1=teams[hCode],t2=teams[aCode];
+    var tm=d.toLocaleTimeString("ar-EG",{timeZone:"Africa/Cairo",hour:"2-digit",minute:"2-digit"});
+    var isMyTeam=function(c){return codes.indexOf(c)>=0};
+    var hBold=isMyTeam(hCode)?'font-weight:bold;color:#C9A84C':'';
+    var aBold=isMyTeam(aCode)?'font-weight:bold;color:#C9A84C':'';
+    html+='<div class="mc">';
+    html+='<div class="mh"><span class="ms up">قادمة</span><span class="mg">المجموعة '+m[3]+'</span></div>';
+    html+='<div class="mt">';
+    html+='<div class="ti h">'+fl(t1.f)+'<div class="tn"><span class="ar" style="'+hBold+'">'+t1.a+'</span><span class="en">'+t1.e+'</span></div></div>';
+    html+='<div class="sc">VS</div>';
+    html+='<div class="ti a"><div class="tn"><span class="ar" style="'+aBold+'">'+t2.a+'</span><span class="en">'+t2.e+'</span></div>'+fl(t2.f)+'</div>';
+    html+='</div>';
+    html+='<div class="tm">'+tm+' بتوقيت القاهرة</div>';
+    html+='</div>';
+  }
+  document.getElementById("ppList").innerHTML=html||'<div style="text-align:center;padding:40px;color:#B0BEC5">مفيش مباريات</div>';
 }
 
 ri();
