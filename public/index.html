@@ -328,13 +328,22 @@ ri();
 rm();
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}
 var notified={};
+var prevScores={};
+var liveMatches=[];
+
 function askNotify(){
   if(!('Notification' in window)){alert('متصفحك مش بيدعم الإشعارات');return}
   Notification.requestPermission().then(function(p){
-    if(p==='granted'){alert('تم تفعيل الإشعارات! هنبعتلك تنبيه قبل كل مباراة')}
+    if(p==='granted'){alert('تم تفعيل الإشعارات! هنبعتلك تنبيه عند أي جول')}
     document.getElementById('nBtn').classList.toggle('active',p==='granted');
   });
 }
+
+function sendNotif(title,body,tag){
+  if(!('Notification' in window)||Notification.permission!=='granted')return;
+  new Notification(title,{body:body,icon:'https://crests.football-data.org/wm26.png',tag:tag||'goal'});
+}
+
 function checkNotify(){
   if(!('Notification' in window)||Notification.permission!=='granted')return;
   var now=Date.now();
@@ -348,12 +357,63 @@ function checkNotify(){
       var t1=teams[m[0]],t2=teams[m[1]];
       var mins=Math.round(diff/60000);
       var body=t1.a+' vs '+t2.a+(mins<=0?' بدأت دلوقتي!':' بعد '+mins+' دقيقة');
-      new Notification('FIFA WORLD CUP 2026',{body:body,icon:'https://crests.football-data.org/wm26.png',tag:key});
+      sendNotif('FIFA WORLD CUP 2026',body,key);
     }
   }
 }
+
+function detectGoals(apiMatches){
+  for(var i=0;i<apiMatches.length;i++){
+    var m=apiMatches[i];
+    if(!m.score||!m.score.fullTime)continue;
+    var home=m.score.fullTime.home;
+    var away=m.score.fullTime.away;
+    if(home===null||away===null)continue;
+    var id=m.id;
+    var prev=prevScores[id];
+    var hName=m.homeTeam?m.homeTeam.name:'';
+    var aName=m.awayTeam?m.awayTeam.name:'';
+    if(prev){
+      if(home>prev.h||away>prev.a){
+        var scored='';
+        if(home>prev.h)scored=hName;
+        else if(away>prev.a)scored=aName;
+        var min=m.minute?m.minute+"'":'';
+        sendNotif('GOAL! '+scored,min+' هدف '+hName+' '+home+' - '+away+' '+aName,'goal-'+id);
+      }
+    }
+    prevScores[id]={h:home,a:away};
+  }
+}
+
+function fetchLive(){
+  fetch('/api/matches').then(function(r){return r.json()}).then(function(matches){
+    if(!Array.isArray(matches))return;
+    liveMatches=matches;
+    detectGoals(matches);
+    var hasLive=false;
+    for(var i=0;i<matches.length;i++){
+      if(matches[i].status==='IN_PLAY'||matches[i].status==='PAUSED'){hasLive=true;break}
+    }
+    if(hasLive)updateLiveDisplay(matches);
+  }).catch(function(){});
+}
+
+function updateLiveDisplay(matches){
+  for(var i=0;i<matches.length;i++){
+    var m=matches[i];
+    if(!m.score||!m.score.fullTime)continue;
+    var h=m.score.fullTime.home;
+    var a=m.score.fullTime.away;
+    if(h===null)continue;
+    var cards=document.querySelectorAll('.mc');
+  }
+}
+
 setInterval(checkNotify,60000);
+setInterval(fetchLive,30000);
 checkNotify();
+fetchLive();
 </script>
 </body>
 </html>
