@@ -9,7 +9,7 @@ const API_KEY = process.env.FOOTBALL_API_KEY;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/matches', async (req, res) => {
   try {
@@ -24,7 +24,7 @@ app.get('/api/matches', async (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.listen(PORT, () => {
