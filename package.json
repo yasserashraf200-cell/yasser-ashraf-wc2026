@@ -1,8 +1,0 @@
-{
-  "name": "yasser-ashraf-wc2026",
-  "version": "1.0.0",
-  "dependencies": {
-    "mongodb": "^6.0.0",
-    "web-push": "^3.6.0"
-  }
-}

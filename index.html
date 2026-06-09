@@ -62,7 +62,9 @@ body{font-family:Tahoma,sans-serif;background:#0D1B2A;color:#fff}
     <img src="https://crests.football-data.org/wm26.png" alt="WC2026">
     <div><div class="t">Yasser Ashraf</div><div class="s">FIFA WORLD CUP 2026</div></div>
   </div>
-  <button class="lb" onclick="tl()">EN</button>
+  <div style="display:flex;gap:8px;align-items:center">
+  <button class="lb" id="nBtn" onclick="askNotify()" title="فعّل الإشعارات">&#128276;</button>
+  <button class="lb" onclick="tl()">EN</button></div>
 </div>
 <div class="mn">
   <div id="mp">
@@ -324,6 +326,34 @@ function tl(){
 
 ri();
 rm();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}
+var notified={};
+function askNotify(){
+  if(!('Notification' in window)){alert('متصفحك مش بيدعم الإشعارات');return}
+  Notification.requestPermission().then(function(p){
+    if(p==='granted'){alert('تم تفعيل الإشعارات! هنبعتلك تنبيه قبل كل مباراة')}
+    document.getElementById('nBtn').classList.toggle('active',p==='granted');
+  });
+}
+function checkNotify(){
+  if(!('Notification' in window)||Notification.permission!=='granted')return;
+  var now=Date.now();
+  for(var i=0;i<matchData.length;i++){
+    var m=matchData[i];
+    var matchTime=new Date(m[2]).getTime();
+    var diff=matchTime-now;
+    var key=m[0]+'-'+m[1]+'-'+m[2];
+    if(diff>0&&diff<=15*60000&&!notified[key]){
+      notified[key]=1;
+      var t1=teams[m[0]],t2=teams[m[1]];
+      var mins=Math.round(diff/60000);
+      var body=t1.a+' vs '+t2.a+(mins<=0?' بدأت دلوقتي!':' بعد '+mins+' دقيقة');
+      new Notification('FIFA WORLD CUP 2026',{body:body,icon:'https://crests.football-data.org/wm26.png',tag:key});
+    }
+  }
+}
+setInterval(checkNotify,60000);
+checkNotify();
 </script>
 </body>
 </html>
