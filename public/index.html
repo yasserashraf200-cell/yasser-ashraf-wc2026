@@ -70,6 +70,11 @@ body{font-family:Tahoma,sans-serif;background:#000;color:#fff}
   <div id="mp">
     <div class="tabs" id="tabs"></div>
     <div class="gr" id="gr"></div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+      <input type="date" id="dateFilter" style="background:#111;color:#D4AF37;border:1px solid #333;padding:7px 12px;border-radius:10px;font-size:.8rem;flex:1">
+      <button onclick="filterByDate()" style="background:#D4AF37;color:#000;border:none;padding:7px 14px;border-radius:10px;font-weight:bold;cursor:pointer;font-size:.8rem">بحث</button>
+      <button onclick="clearDate()" style="background:#333;color:#999;border:none;padding:7px 14px;border-radius:10px;cursor:pointer;font-size:.8rem">مسح</button>
+    </div>
     <div id="ml"></div>
   </div>
   <div id="gp" style="display:none"><div class="gg" id="gc"></div></div>
@@ -216,7 +221,7 @@ var matchData=[
 ["GH","PA","2026-06-28T23:30:00Z","L"]
 ];
 
-var AM=[],cs="all",cg="all",lg="ar";
+var AM=[],cs="all",cg="all",lg="ar",cd="";
 
 function initMatches(){
   var ms=[];
@@ -248,6 +253,12 @@ function rm(){
   else if(cs==="finished")l=l.filter(function(m){return m.status==="FINISHED"});
   else if(cs==="live")l=l.filter(function(m){return m.status==="IN_PLAY"});
   if(cg!=="all")l=l.filter(function(m){return m.group===cg});
+  if(cd){
+    l=l.filter(function(m){
+      var md=new Date(m.date).toLocaleDateString('en-CA',{timeZone:'Africa/Cairo'});
+      return md===cd;
+    });
+  }
   l.sort(function(a,b){return new Date(a.date)-new Date(b.date)});
   var html="";
   var lastDay="";
@@ -275,7 +286,17 @@ function rm(){
     if(m.status==="SCHEDULED")html+='<div class="tm">'+tm+' بتوقيت القاهرة</div>';
     html+='</div>';
   }
-  document.getElementById("ml").innerHTML=html||'<div style="text-align:center;padding:40px;color:#B0BEC5">مفيش مباريات</div>';
+  document.getElementById("ml").innerHTML=html||'<div style="text-align:center;padding:40px;color:#B0BEC5">مفيش مباريات في التاريخ ده</div>';
+}
+
+function filterByDate(){
+  var v=document.getElementById("dateFilter").value;
+  if(v){cd=v;rm()}
+}
+function clearDate(){
+  cd="";
+  document.getElementById("dateFilter").value="";
+  rm();
 }
 
 function rg(){
