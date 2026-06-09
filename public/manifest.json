@@ -1,12 +1,12 @@
-{
+﻿{
   "name": "Yasser Ashraf FIFA WORLD CUP 2026",
   "short_name": "WC 2026",
   "description": "تابع مباريات كأس العالم 2026",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#0D1B2A",
-  "theme_color": "#0D1B2A",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "orientation": "portrait",
   "lang": "ar",
   "dir": "rtl",
@@ -20,3 +20,4 @@
     }
   ]
 }
+

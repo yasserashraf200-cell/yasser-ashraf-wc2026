@@ -9,51 +9,51 @@
 <link rel="icon" href="https://crests.football-data.org/wm26.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Tahoma,sans-serif;background:#0D1B2A;color:#fff}
-.hdr{background:linear-gradient(180deg,#0D1B2A,#1E3A5F);padding:10px 16px;position:fixed;top:0;left:0;right:0;z-index:10;border-bottom:2px solid #C9A84C;display:flex;justify-content:space-between;align-items:center}
+body{font-family:Tahoma,sans-serif;background:#000;color:#fff}
+.hdr{background:linear-gradient(180deg,#000,#1a1a1a);padding:10px 16px;position:fixed;top:0;left:0;right:0;z-index:10;border-bottom:2px solid #D4AF37;display:flex;justify-content:space-between;align-items:center}
 .hdr img{height:40px;width:40px;object-fit:contain}
-.hdr .t{font-size:1rem;font-weight:bold;color:#C9A84C}
-.hdr .s{font-size:.55rem;color:#B0BEC5;letter-spacing:1px}
-.lb{background:#1E3A5F;color:#C9A84C;border:1px solid #C9A84C;padding:5px 12px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:.8rem}
+.hdr .t{font-size:1rem;font-weight:bold;color:#D4AF37}
+.hdr .s{font-size:.55rem;color:#999;letter-spacing:1px}
+.lb{background:#1a1a1a;color:#D4AF37;border:1px solid #D4AF37;padding:5px 12px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:.8rem}
 .mn{margin-top:62px;margin-bottom:65px;padding:12px;max-width:800px;margin-left:auto;margin-right:auto}
 .tabs{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto}
-.tab{background:#1E3A5F;color:#B0BEC5;border:1px solid #2C5282;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:.8rem;white-space:nowrap}
-.tab.a{background:#C9A84C;color:#1A1A1A;font-weight:bold}
+.tab{background:#1a1a1a;color:#999;border:1px solid #333;padding:7px 14px;border-radius:20px;cursor:pointer;font-size:.8rem;white-space:nowrap}
+.tab.a{background:#D4AF37;color:#000;font-weight:bold}
 .gr{display:flex;gap:5px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px}
-.gb{background:#1E3A5F;color:#B0BEC5;border:1px solid #2C5282;padding:5px 10px;border-radius:18px;cursor:pointer;font-size:.75rem;font-weight:bold;min-width:32px;text-align:center}
-.gb.a{background:#C9A84C;color:#1A1A1A}
-.mc{background:linear-gradient(135deg,#1E3A5F,#1B2838);border:1px solid #2C5282;border-radius:12px;padding:14px;margin-bottom:10px}
+.gb{background:#1a1a1a;color:#999;border:1px solid #333;padding:5px 10px;border-radius:18px;cursor:pointer;font-size:.75rem;font-weight:bold;min-width:32px;text-align:center}
+.gb.a{background:#D4AF37;color:#000}
+.mc{background:#111;border:1px solid #333;border-radius:12px;padding:14px;margin-bottom:10px}
 .mh{display:flex;justify-content:space-between;margin-bottom:10px;align-items:center}
 .ms{padding:3px 10px;border-radius:16px;font-size:.7rem;font-weight:bold}
 .ms.lv{background:#F44336;color:#fff}
-.ms.up{background:#2196F3;color:#fff}
-.ms.fn{background:#9E9E9E;color:#fff}
-.mg{color:#B0BEC5;font-size:.75rem}
+.ms.up{background:#D4AF37;color:#000}
+.ms.fn{background:#555;color:#fff}
+.mg{color:#999;font-size:.75rem}
 .mt{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .ti{display:flex;align-items:center;gap:8px;flex:1}
 .ti.h{justify-content:flex-end;text-align:right}
 .ti.a{justify-content:flex-start;text-align:left}
-.ti img{width:36px;height:27px;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.ti img{width:36px;height:27px;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.6)}
 .tn{display:flex;flex-direction:column;gap:1px}
 .tn .ar{font-size:.85rem;font-weight:bold}
-.tn .en{font-size:.6rem;color:#B0BEC5}
-.sc{font-size:1.2rem;font-weight:bold;color:#C9A84C;min-width:70px;text-align:center;background:rgba(0,0,0,.3);padding:6px 0;border-radius:8px}
-.tm{text-align:center;color:#C9A84C;margin-top:10px;font-size:.75rem;font-weight:bold}
+.tn .en{font-size:.6rem;color:#999}
+.sc{font-size:1.2rem;font-weight:bold;color:#D4AF37;min-width:70px;text-align:center;background:#1a1a1a;padding:6px 0;border-radius:8px}
+.tm{text-align:center;color:#D4AF37;margin-top:10px;font-size:.75rem;font-weight:bold}
 .gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.gc{background:#1E3A5F;border:1px solid #2C5282;border-radius:12px;overflow:hidden}
-.gh{background:linear-gradient(135deg,#C9A84C,#E8D48B);padding:10px 14px;display:flex;align-items:center;gap:8px}
-.gl{font-size:1.3rem;font-weight:bold;color:#1A1A1A}
-.gt{font-size:.85rem;font-weight:bold;color:#1A1A1A}
+.gc{background:#111;border:1px solid #333;border-radius:12px;overflow:hidden}
+.gh{background:linear-gradient(135deg,#D4AF37,#B8941F);padding:10px 14px;display:flex;align-items:center;gap:8px}
+.gl{font-size:1.3rem;font-weight:bold;color:#000}
+.gt{font-size:.85rem;font-weight:bold;color:#000}
 .gts{padding:10px}
-.grw{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#1B2838;border-radius:6px;margin-bottom:5px}
+.grw{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#0a0a0a;border-radius:6px;margin-bottom:5px}
 .grw:last-child{margin-bottom:0}
 .grw img{width:30px;height:22px;border-radius:2px}
 .grw span{font-size:.85rem}
-.bnav{position:fixed;bottom:0;left:0;right:0;background:#0D1B2A;border-top:2px solid #C9A84C;display:flex;justify-content:space-around;padding:8px 0;z-index:100}
-.nb{background:none;border:none;color:#B0BEC5;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 8px;font-size:.65rem}
-.nb.a{color:#C9A84C}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#000;border-top:2px solid #D4AF37;display:flex;justify-content:space-around;padding:8px 0;z-index:100}
+.nb{background:none;border:none;color:#999;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 8px;font-size:.65rem}
+.nb.a{color:#D4AF37}
 .nb .i{font-size:1rem}
-.day-hdr{color:#C9A84C;font-size:.85rem;font-weight:bold;padding:8px 0 4px;border-bottom:1px solid #2C5282;margin:12px 0 8px}
+.day-hdr{color:#D4AF37;font-size:.85rem;font-weight:bold;padding:8px 0 4px;border-bottom:1px solid #333;margin:12px 0 8px}
 </style>
 </head>
 <body>
