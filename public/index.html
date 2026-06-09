@@ -23,7 +23,7 @@
     
     .header { background: linear-gradient(180deg, #0D1B2A, #1E3A5F); padding: 12px 20px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; }
     .logo { display: flex; align-items: center; gap: 10px; }
-    .logo .trophy { font-size: 1.8rem; }
+    .logo img { height: 40px; width: 40px; object-fit: contain; }
     .logo .title { font-size: 1.1rem; font-weight: bold; color: var(--gold); }
     .logo .sub { font-size: 0.65rem; color: var(--gray); letter-spacing: 2px; }
     .lang-btn { background: var(--card); color: var(--gold); border: 1px solid var(--gold); padding: 6px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; }
@@ -91,7 +91,7 @@
 <body>
   <div class="header">
     <div class="logo">
-      <img src="https://crests.football-data.org/wm26.png" alt="FIFA World Cup 2026" style="height:40px;width:40px;object-fit:contain;">
+      <img src="https://crests.football-data.org/wm26.png" alt="FIFA World Cup 2026">
       <div>
         <div class="title">Yasser Ashraf</div>
         <div class="sub">FIFA WORLD CUP 2026</div>
@@ -120,9 +120,6 @@
   </nav>
 
 <script>
-const API_KEY = '0af473f019dc44408f7b561ec109a646';
-const API_URL = 'https://api.football-data.org/v4/competitions/2000/matches';
-
 const teams = {
   769:{ar:'المكسيك',en:'Mexico',f:'mx'},772:{ar:'كوريا الجنوبية',en:'South Korea',f:'kr'},
   774:{ar:'جنوب أفريقيا',en:'South Africa',f:'za'},798:{ar:'التشيك',en:'Czechia',f:'cz'},
@@ -163,7 +160,6 @@ let currentGroup = 'all';
 let lang = 'ar';
 
 function flag(code) { return `<img src="https://flagcdn.com/40x30/${code}.png" alt="">`; }
-function flagLg(code) { return `<img src="https://flagcdn.com/60x45/${code}.png" alt="">`; }
 function tname(id) { const t = teams[id]; return t ? (lang==='ar'?t.ar:t.en) : '???'; }
 function tflag(id) { const t = teams[id]; return t ? t.f : ''; }
 
@@ -268,9 +264,9 @@ function toggleLang() {
 
 async function loadMatches() {
   try {
-    const res = await fetch(API_URL, { headers: { 'X-Auth-Token': API_KEY } });
+    const res = await fetch('/api/matches');
     const data = await res.json();
-    allMatches = data.matches || [];
+    allMatches = data;
     renderGroupTabs();
     renderMatches();
   } catch(e) {
