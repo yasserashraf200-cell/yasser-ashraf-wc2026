@@ -91,7 +91,7 @@
 <body>
   <div class="header">
     <div class="logo">
-      <span class="trophy">🏆</span>
+      <img src="https://crests.football-data.org/wm26.png" alt="FIFA World Cup 2026" style="height:40px;width:40px;object-fit:contain;">
       <div>
         <div class="title">Yasser Ashraf</div>
         <div class="sub">FIFA WORLD CUP 2026</div>
@@ -217,8 +217,8 @@ function renderMatches() {
     const aFlag = tflag(m.awayTeam.id);
     const grp = m.group ? m.group.replace('GROUP_','') : '';
     const d = new Date(m.utcDate);
-    const time = d.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
-    const date = d.toLocaleDateString('ar-EG',{month:'short',day:'numeric'});
+    const time = d.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit',timeZone:'Africa/Cairo'});
+    const date = d.toLocaleDateString('ar-EG',{weekday:'short',month:'short',day:'numeric',timeZone:'Africa/Cairo'});
     
     return `<div class="match-card ${isLive?'live':''}">
       <div class="mhead">
@@ -236,7 +236,7 @@ function renderMatches() {
           ${aFlag?flag(aFlag):''}
         </div>
       </div>
-      <div class="mtime">${isUp?date+' '+time:isFin?date:m.matchday?'Matchday '+m.matchday:date}</div>
+      <div class="mtime">${isUp?date+' '+time+' بتوقيت القاهرة':isFin?date+' - منتهية':m.matchday?'Matchday '+m.matchday+' | '+date+' '+time+' بتوقيت القاهرة':date}</div>
     </div>`;
   }).join('');
 }
