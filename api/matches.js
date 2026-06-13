@@ -4,11 +4,16 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
+    const apiKey = process.env.FOOTBALL_API_KEY || '0af473f019dc44408f7b561ec109a646';
     const response = await fetch('https://api.football-data.org/v4/competitions/2000/matches', {
-      headers: { 'X-Auth-Token': process.env.FOOTBALL_API_KEY }
+      headers: { 'X-Auth-Token': apiKey }
     });
     const data = await response.json();
-    const matches = (data.matches || []).map(m => ({
+    if (!data.matches) {
+      res.json([]);
+      return;
+    }
+    const matches = data.matches.map(m => ({
       id: m.id,
       group: m.group,
       status: m.status,
