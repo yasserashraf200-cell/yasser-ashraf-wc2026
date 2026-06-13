@@ -4,11 +4,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const ONE_SIGNAL_APP_ID = '84adb832-e5e6-4fee-90e3-b7bf039a64de';
-  const ONE_SIGNAL_REST_KEY = req.headers['x-onesignal-rest-key'] || process.env.ONESIGNAL_REST_KEY;
-
-  if (!ONE_SIGNAL_REST_KEY) {
-    return res.status(400).json({ error: 'Missing OneSignal REST API Key' });
-  }
+  const ONE_SIGNAL_REST_KEY = 'os_v2_app_qsw3qmxf4zh65ehdw67qhgte32jrmj3lddvutu5z6o5qwylb3slntmbinguveut7rj56w6q2pyrg7epyniycbrsp7xxrdyhar7jlvei';
 
   try {
     const { title, body, tag, url } = req.body || {};

@@ -1,7 +1,7 @@
 import https from 'https';
 
 const ONE_SIGNAL_APP_ID = '84adb832-e5e6-4fee-90e3-b7bf039a64de';
-const ONE_SIGNAL_REST_KEY = process.env.ONESIGNAL_REST_KEY;
+const ONE_SIGNAL_REST_KEY = 'os_v2_app_qsw3qmxf4zh65ehdw67qhgte32jrmj3lddvutu5z6o5qwylb3slntmbinguveut7rj56w6q2pyrg7epyniycbrsp7xxrdyhar7jlvei';
 const FOOTBALL_API_KEY = '0af473f019dc44408f7b561ec109a646';
 
 function fetchJSON(hostname, path, headers) {
