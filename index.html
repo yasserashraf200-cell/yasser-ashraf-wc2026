@@ -424,6 +424,7 @@ function tl(){
 ri();
 rm();
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}
+if('Notification' in window&&Notification.permission==='granted'){document.getElementById('nBtn').classList.add('active')}
 var notified={};
 var prevScores={};
 var liveMatches=[];
@@ -449,12 +450,15 @@ function checkNotify(){
     var matchTime=new Date(m[2]).getTime();
     var diff=matchTime-now;
     var key=m[0]+'-'+m[1]+'-'+m[2];
-    if(diff>0&&diff<=15*60000&&!notified[key]){
+    if(diff>0&&diff<=30*60000&&!notified[key]){
       notified[key]=1;
       var t1=teams[m[0]],t2=teams[m[1]];
       var mins=Math.round(diff/60000);
-      var body=t1.a+' vs '+t2.a+(mins<=0?' بدأت دلوقتي!':' بعد '+mins+' دقيقة');
-      sendNotif('FIFA WORLD CUP 2026',body,key);
+      var body;
+      if(mins<=0)body='\u26BD '+t1.a+' vs '+t2.a+' \u0628\u062f\u0627\u064a\u062a!';
+      else if(mins<=5)body='\u26BD '+t1.a+' vs '+t2.a+' \u0628\u062a\u0628\u062f\u0623 \u0628\u0639\u062f '+mins+' \u062f\u0642\u064a\u0642\u0629!';
+      else body='\u26BD '+t1.a+' vs '+t2.a+' \u0628\u062a\u0628\u062f\u0623 \u0628\u0639\u062f '+mins+' \u062f\u0642\u064a\u0642\u0629';
+      sendNotif('\u23F0 \u0627\u0644\u0645\u0628\u0627\u0631\u0627\u0629 \u0642\u0631\u064A\u0628\u0627\u064B',body,key);
     }
   }
 }
@@ -462,21 +466,27 @@ function checkNotify(){
 function detectGoals(apiMatches){
   for(var i=0;i<apiMatches.length;i++){
     var m=apiMatches[i];
-    if(!m.score||!m.score.fullTime)continue;
-    var home=m.score.fullTime.home;
-    var away=m.score.fullTime.away;
+    if(!m.score)continue;
+    var ft=m.score.fullTime;
+    var ht=m.score.halfTime;
+    if(!ft)continue;
+    var home=ft.home;
+    var away=ft.away;
     if(home===null||away===null)continue;
     var id=m.id;
     var prev=prevScores[id];
     var hName=m.homeTeam?m.homeTeam.name:'';
     var aName=m.awayTeam?m.awayTeam.name:'';
+    var minute=m.minute?m.minute+"\'":'';
     if(prev!==undefined){
       if(home>prev.h||away>prev.a){
         var scored='';
-        if(home>prev.h)scored=hName;
-        if(away>prev.a)scored=aName;
-        var min=m.minute?m.minute+"'":'';
-        sendNotif('GOAL! \u26BD '+scored,min+' \u0647\u062f\u0641 '+hName+' '+home+' - '+away+' '+aName,'goal-'+id);
+        if(home>prev.h&&away>prev.a)scored=hName+' \u0648'+aName;
+        else if(home>prev.h)scored=hName;
+        else if(away>prev.a)scored=aName;
+        var body='\u26BD \u0647\u062F\u0641 '+scored+'!\n'+hName+' '+home+' - '+away+' '+aName;
+        if(minute)body=minute+' | '+body;
+        sendNotif('\u26BD GOAL! '+scored,body,'goal-'+id+'-'+home+'-'+away);
       }
     }
     prevScores[id]={h:home,a:away};
@@ -552,7 +562,7 @@ function updateLiveDisplay(matches){
   rm();
 }
 
-setInterval(checkNotify,60000);
+setInterval(checkNotify,30000);
 setInterval(fetchLive,30000);
 checkNotify();
 fetchLive();
