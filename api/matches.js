@@ -9,8 +9,8 @@ export default async function handler(req, res) {
       headers: { 'X-Auth-Token': apiKey }
     });
     const data = await response.json();
-    if (!data.matches) {
-      res.json([]);
+    if (!response.ok || !data.matches) {
+      res.status(200).json({ error: data.message || 'API error', status: response.status, raw: data });
       return;
     }
     const matches = data.matches.map(m => ({
@@ -25,6 +25,6 @@ export default async function handler(req, res) {
     }));
     res.json(matches);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(200).json({ error: error.message });
   }
 }
