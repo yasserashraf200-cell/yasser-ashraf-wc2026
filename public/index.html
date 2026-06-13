@@ -299,16 +299,68 @@ function clearDate(){
   rm();
 }
 
+function calcStandings(){
+  var stand={};
+  var gKeys=Object.keys(groups);
+  for(var gi=0;gi<gKeys.length;gi++){
+    var g=gKeys[gi];
+    stand[g]={};
+    var ids=groups[g];
+    for(var ti=0;ti<ids.length;ti++){
+      stand[g][ids[ti]]={p:0,w:0,d:0,l:0,gf:0,ga:0,gd:0,pts:0};
+    }
+  }
+  for(var i=0;i<AM.length;i++){
+    var m=AM[i];
+    if(m.status!=="FINISHED"||m.sh===null)continue;
+    var g=m.group;
+    if(!stand[g])continue;
+    var hc=m.hc,ac=m.ac;
+    var hs=m.sh,as=m.sa;
+    if(!stand[g][hc]||!stand[g][ac])continue;
+    stand[g][hc].p++;stand[g][ac].p++;
+    stand[g][hc].gf+=hs;stand[g][hc].ga+=as;
+    stand[g][ac].gf+=as;stand[g][ac].ga+=hs;
+    if(hs>as){stand[g][hc].w++;stand[g][hc].pts+=3;stand[g][ac].l++}
+    else if(hs<as){stand[g][ac].w++;stand[g][ac].pts+=3;stand[g][hc].l++}
+    else{stand[g][hc].d++;stand[g][hc].pts+=1;stand[g][ac].d++;stand[g][ac].pts+=1}
+  }
+  var gKeys2=Object.keys(stand);
+  for(var gi=0;gi<gKeys2.length;gi++){
+    var g=gKeys2[gi];
+    var teams2=Object.keys(stand[g]);
+    for(var ti=0;ti<teams2.length;ti++){
+      var s=stand[g][teams2[ti]];
+      s.gd=s.gf-s.ga;
+    }
+    teams2.sort(function(a,b){
+      var sa=stand[g][a],sb=stand[g][b];
+      if(sb.pts!==sa.pts)return sb.pts-sa.pts;
+      if(sb.gd!==sa.gd)return sb.gd-sa.gd;
+      return sb.gf-sa.gf;
+    });
+    stand[g]._order=teams2;
+  }
+  return stand;
+}
+
 function rg(){
+  var stand=calcStandings();
   var h="";
   var gKeys=Object.keys(groups);
   for(var gi=0;gi<gKeys.length;gi++){
     var g=gKeys[gi];
     var ids=groups[g];
     h+='<div class="gc"><div class="gh"><span class="gl">'+g+'</span><span class="gt">'+gNames[g]+'</span></div><div class="gts">';
-    for(var ti=0;ti<ids.length;ti++){
-      var t=teams[ids[ti]];
-      h+='<div class="grw">'+fl(t.f)+'<span>'+t.a+'</span></div>';
+    h+='<div style="display:grid;grid-template-columns:1fr 28px 28px 28px 28px 28px 28px 35px;padding:4px 8px;font-size:.6rem;color:#999;border-bottom:1px solid #333;margin-bottom:4px"><span></span><span style="text-align:center">م</span><span style="text-align:center">ف</span><span style="text-align:center">ت</span><span style="text-align:center">خ</span><span style="text-align:center">+/-</span><span style="text-align:center">ن</span><span></span></div>';
+    var order=(stand[g]._order||ids);
+    for(var ti=0;ti<order.length;ti++){
+      var tid=order[ti];
+      var t=teams[tid];
+      var s=stand[g][tid];
+      var ptsText=s.p>0?s.pts:'0';
+      var gdText=s.gd>0?'+'+s.gd:s.gd===0?'0':s.gd;
+      h+='<div class="grw" style="align-items:center">'+fl(t.f)+'<span style="flex:1;font-size:.8rem">'+t.a+'</span><span style="font-size:.7rem;color:#666;text-align:center;width:28px">'+s.p+'</span><span style="font-size:.7rem;color:#6a6;text-align:center;width:28px">'+s.w+'</span><span style="font-size:.7rem;color:#996;text-align:center;width:28px">'+s.d+'</span><span style="font-size:.7rem;color:#a66;text-align:center;width:28px">'+s.l+'</span><span style="font-size:.7rem;color:#999;text-align:center;width:28px">'+gdText+'</span><span style="font-size:.8rem;font-weight:bold;color:#D4AF37;text-align:center;width:35px">'+ptsText+'</span></div>';
     }
     h+='</div></div>';
   }
