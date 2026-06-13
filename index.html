@@ -280,9 +280,10 @@ function rm(){
     var isLive=m.status==="IN_PLAY";
     var isFin=m.status==="FINISHED";
     var cls=isLive?" lv":"";
-    var badge=isLive?'<span class="ms lv">\u0645\u0628\u0627\u0634\u0631</span>':isFin?'<span class="ms fn">\u0645\u0646\u062a\u0647\u064a\u0629</span>':'<span class="ms up">\u0642\u0627\u062f\u0645\u0629</span>';
+    var minTxt=isLive&&m.minute?' '+m.minute+"'":'';
+    var badge=isLive?'<span class="ms lv">\u0645\u0628\u0627\u0634\u0631'+minTxt+'</span>':isFin?'<span class="ms fn">\u0645\u0646\u062a\u0647\u064a\u0629</span>':'<span class="ms up">\u0642\u0627\u062f\u0645\u0629</span>';
     var tm=d.toLocaleTimeString("ar-EG",{timeZone:"Africa/Cairo",hour:"2-digit",minute:"2-digit"});
-    var score=m.status==="SCHEDULED"?"VS":m.sh+" - "+m.sa;
+    var score=(m.status==="SCHEDULED"||m.sh===null)?"VS":m.sh+" - "+m.sa;
     html+='<div class="mc'+cls+'">';
     html+='<div class="mh">'+badge+'<span class="mg">المجموعة '+m.group+'</span></div>';
     html+='<div class="mt">';
@@ -521,13 +522,13 @@ function detectGoals(apiMatches){
     var prev=prevScores[id];
     var hName=m.homeTeam?m.homeTeam.name:'';
     var aName=m.awayTeam?m.awayTeam.name:'';
-    if(prev){
+    if(prev!==undefined){
       if(home>prev.h||away>prev.a){
         var scored='';
         if(home>prev.h)scored=hName;
-        else if(away>prev.a)scored=aName;
+        if(away>prev.a)scored=aName;
         var min=m.minute?m.minute+"'":'';
-        sendNotif('GOAL! '+scored,min+' هدف '+hName+' '+home+' - '+away+' '+aName,'goal-'+id);
+        sendNotif('GOAL! \u26BD '+scored,min+' \u0647\u062f\u0641 '+hName+' '+home+' - '+away+' '+aName,'goal-'+id);
       }
     }
     prevScores[id]={h:home,a:away};
@@ -547,6 +548,27 @@ function fetchLive(){
   }).catch(function(){});
 }
 
+var teamNameMap={
+  "Korea Republic":"KR","South Korea":"KR","Czechia":"CZ","Czech Republic":"CZ",
+  "Bosnia and Herzegovina":"BA","Bosnia":"BA","Curaçao":"CW","Curacao":"CW",
+  "IR Iran":"IR","Iran":"IR","Cabo Verde":"CV","Cape Verde":"CV",
+  "Türkiye":"TR","Turkey":"TR","Congo DR":"CD","DR Congo":"CD",
+  "USA":"US","United States":"US","Saudi Arabia":"SA","England":"GB",
+  "México":"MX","Brasil":"BR","Deutschland":"DE","Nederland":"NL",
+  "Netherlands":"NL","Azərbaycan":"AZ"
+};
+
+function findMatchCode(apiName){
+  if(teamNameMap[apiName])return teamNameMap[apiName];
+  var upper=apiName.toUpperCase();
+  var codes=Object.keys(teams);
+  for(var i=0;i<codes.length;i++){
+    var t=teams[codes[i]];
+    if(t.e.toUpperCase()===upper||t.a===apiName)return codes[i];
+  }
+  return null;
+}
+
 function updateLiveDisplay(matches){
   for(var i=0;i<matches.length;i++){
     var m=matches[i];
@@ -554,8 +576,25 @@ function updateLiveDisplay(matches){
     var h=m.score.fullTime.home;
     var a=m.score.fullTime.away;
     if(h===null)continue;
-    var cards=document.querySelectorAll('.mc');
+    var apiH=m.homeTeam?m.homeTeam.name:'';
+    var apiA=m.awayTeam?m.awayTeam.name:'';
+    var hCode=findMatchCode(apiH);
+    var aCode=findMatchCode(apiA);
+    var status=m.status;
+    var minute=m.minute||0;
+    for(var j=0;j<AM.length;j++){
+      var am=AM[j];
+      if((hCode&&am.hc===hCode)&&(aCode&&am.ac===aCode)){
+        am.sh=h;
+        am.sa=a;
+        if(status==='IN_PLAY'||status==='PAUSED')am.status='IN_PLAY';
+        else if(status==='FINISHED')am.status='FINISHED';
+        am.minute=minute;
+        break;
+      }
+    }
   }
+  rm();
 }
 
 setInterval(checkNotify,60000);

@@ -537,25 +537,28 @@ function detectGoals(apiMatches){
 
 function fetchLive(){
   fetch('/api/matches').then(function(r){return r.json()}).then(function(matches){
-    if(!Array.isArray(matches))return;
+    if(!Array.isArray(matches)||matches.length===0)return;
     liveMatches=matches;
     detectGoals(matches);
-    var hasLive=false;
-    for(var i=0;i<matches.length;i++){
-      if(matches[i].status==='IN_PLAY'||matches[i].status==='PAUSED'){hasLive=true;break}
-    }
-    if(hasLive)updateLiveDisplay(matches);
+    updateLiveDisplay(matches);
   }).catch(function(){});
 }
 
 var teamNameMap={
   "Korea Republic":"KR","South Korea":"KR","Czechia":"CZ","Czech Republic":"CZ",
-  "Bosnia and Herzegovina":"BA","Bosnia":"BA","Curaçao":"CW","Curacao":"CW",
+  "Bosnia and Herzegovina":"BA","Bosnia":"BA","Bosnia-H.":"BA","Bosnia & Herzegovina":"BA",
+  "Curaçao":"CW","Curacao":"CW",
   "IR Iran":"IR","Iran":"IR","Cabo Verde":"CV","Cape Verde":"CV",
   "Türkiye":"TR","Turkey":"TR","Congo DR":"CD","DR Congo":"CD",
   "USA":"US","United States":"US","Saudi Arabia":"SA","England":"GB",
-  "México":"MX","Brasil":"BR","Deutschland":"DE","Nederland":"NL",
-  "Netherlands":"NL","Azərbaycan":"AZ"
+  "México":"MX","Mexico":"MX","Brasil":"BR","Brazil":"BR",
+  "Deutschland":"DE","Germany":"DE","Nederland":"NL","Netherlands":"NL",
+  "Azərbaycan":"AZ","South Africa":"ZA","Paraguay":"PY",
+  "Scotland":"SC","Haiti":"HT","Tunisia":"TN","Sweden":"SE",
+  "Norway":"NO","Algeria":"DZ","Jordan":"JO","Panama":"PA",
+  "Croatia":"HR","Ghana":"GH","Qatar":"QA","New Zealand":"NZ",
+  "Colombia":"CO","Congo DR":"CD","Uzbekistan":"UZ","Ivory Coast":"CI",
+  "Ecuador":"EC","Côte d'Ivoire":"CI","Australia":"AU"
 };
 
 function findMatchCode(apiName){
@@ -564,7 +567,11 @@ function findMatchCode(apiName){
   var codes=Object.keys(teams);
   for(var i=0;i<codes.length;i++){
     var t=teams[codes[i]];
-    if(t.e.toUpperCase()===upper||t.a===apiName)return codes[i];
+    if(t.e.toUpperCase()===upper)return codes[i];
+  }
+  for(var i=0;i<codes.length;i++){
+    var t=teams[codes[i]];
+    if(upper.indexOf(t.e.toUpperCase())>=0||t.e.toUpperCase().indexOf(upper)>=0)return codes[i];
   }
   return null;
 }
