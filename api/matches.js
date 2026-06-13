@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const apiKey = process.env.FOOTBALL_API_KEY || '0af473f019dc44408f7b561ec109a646';
+  const apiKey = '0af473f019dc44408f7b561ec109a646';
 
   try {
     const data = await new Promise((resolve, reject) => {
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         res2.on('data', (chunk) => body += chunk);
         res2.on('end', () => {
           try { resolve(JSON.parse(body)); }
-          catch (e) { reject(new Error('Parse error: ' + body.substring(0, 200))); }
+          catch (e) { reject(new Error('Parse error')); }
         });
       });
       req2.on('error', reject);
@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     });
 
     if (!data.matches) {
-      res.status(200).json({ error: data.message || 'No matches', debug: apiKey.substring(0, 4) + '...' });
+      res.status(200).json([]);
       return;
     }
 
@@ -44,6 +44,6 @@ export default async function handler(req, res) {
     }));
     res.json(matches);
   } catch (error) {
-    res.status(200).json({ error: error.message });
+    res.status(200).json([]);
   }
 }
