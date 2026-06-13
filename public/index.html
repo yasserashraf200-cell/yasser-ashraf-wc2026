@@ -375,32 +375,37 @@ function selectTeam(code){
   document.getElementById("tpTitle").style.display="block";
   document.getElementById("tpTitle").innerHTML='<span onclick="selectedTeam=null;renderTeams()" style="cursor:pointer;margin-left:10px;font-size:.8rem;color:#999">الرجوع للكل</span> '+t.a+' - مباريات المنتخب';
   var filtered=[];
-  for(var i=0;i<matchData.length;i++){
-    var m=matchData[i];
-    if(m[0]===code||m[1]===code)filtered.push(m);
+  for(var i=0;i<AM.length;i++){
+    var m=AM[i];
+    if(m.hc===code||m.ac===code)filtered.push(m);
   }
-  filtered.sort(function(a,b){return new Date(a[2])-new Date(b[2])});
+  filtered.sort(function(a,b){return new Date(a.date)-new Date(b.date)});
   var html="";
   var lastDay="";
   for(var i=0;i<filtered.length;i++){
     var m=filtered[i];
-    var d=new Date(m[2]);
+    var d=new Date(m.date);
     var dayKey=d.toLocaleDateString("ar-EG",{timeZone:"Africa/Cairo",weekday:"long",year:"numeric",month:"long",day:"numeric"});
     if(dayKey!==lastDay){lastDay=dayKey;html+='<div class="day-hdr">'+dayKey+'</div>'}
-    var hCode=m[0],aCode=m[1];
+    var hCode=m.hc,aCode=m.ac;
     var t1=teams[hCode],t2=teams[aCode];
     var tm=d.toLocaleTimeString("ar-EG",{timeZone:"Africa/Cairo",hour:"2-digit",minute:"2-digit"});
     var isSel=function(c){return c===code};
     var hBold=isSel(hCode)?'font-weight:bold;color:#D4AF37':'';
     var aBold=isSel(aCode)?'font-weight:bold;color:#D4AF37':'';
+    var isLive=m.status==="IN_PLAY";
+    var isFin=m.status==="FINISHED";
+    var minTxt=isLive&&m.minute?' '+m.minute+"'":'';
+    var badge=isLive?'<span class="ms lv">\u0645\u0628\u0627\u0634\u0631'+minTxt+'</span>':isFin?'<span class="ms fn">\u0645\u0646\u062a\u0647\u064a\u0629</span>':'<span class="ms up">\u0642\u0627\u062f\u0645\u0629</span>';
+    var score=(m.status==="SCHEDULED"||m.sh===null)?"VS":m.sh+" - "+m.sa;
     html+='<div class="mc">';
-    html+='<div class="mh"><span class="ms up">قادمة</span><span class="mg">المجموعة '+m[3]+'</span></div>';
+    html+='<div class="mh">'+badge+'<span class="mg">المجموعة '+m.group+'</span></div>';
     html+='<div class="mt">';
     html+='<div class="ti h">'+fl(t1.f)+'<div class="tn"><span class="ar" style="'+hBold+'">'+t1.a+'</span><span class="en">'+t1.e+'</span></div></div>';
-    html+='<div class="sc">VS</div>';
+    html+='<div class="sc">'+score+'</div>';
     html+='<div class="ti a"><div class="tn"><span class="ar" style="'+aBold+'">'+t2.a+'</span><span class="en">'+t2.e+'</span></div>'+fl(t2.f)+'</div>';
     html+='</div>';
-    html+='<div class="tm">'+tm+' بتوقيت القاهرة</div>';
+    if(m.status==="SCHEDULED")html+='<div class="tm">'+tm+' بتوقيت القاهرة</div>';
     html+='</div>';
   }
   document.getElementById("tpList").innerHTML=html||'<div style="text-align:center;padding:40px;color:#999">مفيش مباريات</div>';
