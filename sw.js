@@ -1,4 +1,6 @@
-const CACHE = 'wc2026-v2';
+importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
+
+const CACHE = 'wc2026-v3';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
@@ -15,6 +17,7 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   if (e.request.url.includes('/api/')) return;
+  if (e.request.url.includes('onesignal.com')) return;
   e.respondWith(
     fetch(e.request).then(r => {
       const clone = r.clone();
@@ -25,10 +28,11 @@ self.addEventListener('fetch', e => {
 });
 
 self.addEventListener('push', e => {
+  if(e.data && e.data.url && e.data.url.includes('onesignal.com')) return;
   const data = e.data ? e.data.json() : { title: 'WC 2026', body: 'مباراة قادمة!' };
   e.waitUntil(
-    self.registration.showNotification(data.title, {
-      body: data.body,
+    self.registration.showNotification(data.title || 'Yas app', {
+      body: data.body || data.contents || 'مباراة قادمة!',
       icon: 'https://crests.football-data.org/wm26.png',
       badge: 'https://crests.football-data.org/wm26.png',
       vibrate: [200, 100, 200],

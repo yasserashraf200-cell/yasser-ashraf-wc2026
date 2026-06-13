@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#0D1B2A">
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="https://crests.football-data.org/wm26.png">
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Tahoma,sans-serif;background:#000;color:#fff}
@@ -430,16 +431,31 @@ var prevScores={};
 var liveMatches=[];
 
 function askNotify(){
-  if(!('Notification' in window)){alert('متصفحك مش بيدعم الإشعارات');return}
-  Notification.requestPermission().then(function(p){
-    if(p==='granted'){alert('تم تفعيل الإشعارات! هنبعتلك تنبيه عند أي جول')}
-    document.getElementById('nBtn').classList.toggle('active',p==='granted');
-  });
+  if(typeof OneSignal!=='undefined'){
+    OneSignal.Slidedown.promptNative({force:true}).then(function(result){
+      if(result.accepted){
+        alert('\u2705 \u062a\u0645 \u062a\u0641\u0639\u064a\u0644 \u0627\u0644\u0625\u0634\u0639\u0627\u0631\u0627\u062a! \u0647\u0646\u0628\u0639\u062a\u0644\u0643 \u062a\u0646\u0628\u064a\u0647 \u0639\u0646\u062f \u0623\u064a \u062c\u0648\u0644 \u0623\u0648 \u0642\u0631\u064a\u0628\u0627\u064b \u0645\u0646 \u0627\u0644\u0645\u0628\u0627\u0631\u0627\u0629');
+        document.getElementById('nBtn').classList.add('active');
+      }
+    });
+  }else{
+    Notification.requestPermission().then(function(p){
+      if(p==='granted')alert('\u2705 \u062a\u0645 \u062a\u0641\u0639\u064a\u0644 \u0627\u0644\u0625\u0634\u0639\u0627\u0631\u0627\u062a!');
+      document.getElementById('nBtn').classList.toggle('active',p==='granted');
+    });
+  }
 }
 
 function sendNotif(title,body,tag){
-  if(!('Notification' in window)||Notification.permission!=='granted')return;
-  new Notification(title,{body:body,icon:'https://crests.football-data.org/wm26.png',tag:tag||'goal'});
+  if(typeof OneSignal!=='undefined'&&OneSignal.User&&OneSignal.User.pushSubscription){
+    OneSignal.postNotification({
+      headings:{en:title},
+      contents:{en:body},
+      tags:[{key:'match',value:tag||'goal'}]
+    }).catch(function(){});
+  }else if('Notification' in window&&Notification.permission==='granted'){
+    new Notification(title,{body:body,icon:'https://crests.football-data.org/wm26.png',tag:tag||'goal'});
+  }
 }
 
 function checkNotify(){
@@ -566,6 +582,21 @@ setInterval(checkNotify,30000);
 setInterval(fetchLive,30000);
 checkNotify();
 fetchLive();
+
+window.OneSignal = window.OneSignal || [];
+OneSignal.push(function(){
+  OneSignal.init({
+    appId: "84adb832-e5e6-4fee-90e3-b7bf039a64de",
+    notifyButton: {enable: false},
+    allowLocalhostAsSecureOrigin: true
+  });
+  OneSignal.on('subscriptionChange', function(isSubscribed){
+    document.getElementById('nBtn').classList.toggle('active',isSubscribed);
+  });
+  OneSignal.isPushNotificationsEnabled().then(function(isEnabled){
+    document.getElementById('nBtn').classList.toggle('active',isEnabled);
+  });
+});
 </script>
 </body>
 </html>
